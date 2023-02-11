@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  randomcooking-backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: random
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./angular-app:/projects"
+    tty: true
+    entrypoint:
+      - sh
+    command:
+      - -c
+      - |
+        npm install
+        ng serve --host 0.0.0.0 --disable-host-check
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: randomcooking
+      # POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./docker/data:/var/lib/postgresql/data
+      - ./docker/postgres/sql:/docker-entrypoint-initdb.d

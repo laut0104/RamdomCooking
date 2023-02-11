@@ -1,0 +1,6 @@
+development:
+  dialect: postgres
+  # datasource: root:@tcp(localhost:3306)/go-echo-example?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true
+  datasource: dbname=randomcooking sslmode=disable
+  dir: migrations
+  # table: migrations
