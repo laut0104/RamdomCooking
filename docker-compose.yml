@@ -1,23 +1,24 @@
 version: '3'
 
 services:
-  randomcooking-backend:
+ # backend
+  backend:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    container_name: random
-    ports:
-      - "4200:4200"
+      dockerfile: docker/backend/Dockerfile
+    command: "go run server.go" # ソースコードを変更してもこの設定では反映されないため、都度コンテナをbuildしなければならない
     volumes:
-      - "./angular-app:/projects"
-    tty: true
-    entrypoint:
-      - sh
-    command:
-      - -c
-      - |
-        npm install
-        ng serve --host 0.0.0.0 --disable-host-check
+        - type: bind
+          source: ./backend
+          target: /app
+    ports:
+      - 8080:8080
+    
+    # command:
+    #   - -c
+    #   - |
+    #     npm install
+    #     ng serve --host 0.0.0.0 --disable-host-check
 
   postgres:
     image: postgres
@@ -25,8 +26,28 @@ services:
       - 5432:5432
     environment:
       POSTGRES_DB: randomcooking
-      # POSTGRES_USER: strapi
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: password
     volumes:
       - ./docker/data:/var/lib/postgresql/data
       - ./docker/postgres/sql:/docker-entrypoint-initdb.d
+
+
+  # pgadmin4:
+  #   container_name: devenv_pgadmin4
+  #   image: dpage/pgadmin4:4.29
+  #   env_file:
+  #     - docker/pgadmin4/.env
+  #   depends_on:
+  #     - postgresql
+  #   ports:
+  #     - 5433:80
+  #   networks:
+  #     - container_link
+  #   volumes:
+  #     - pgadmin4_data:/var/lib/pgadmin:rw
+  #   # logging:
+  #   #   driver: json-file
+  #   #   options:
+  #   #     max-size: '5m'
+  #   #     max-file: '1'
