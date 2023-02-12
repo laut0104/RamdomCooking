@@ -4,8 +4,6 @@ FROM golang:1.19.5
 # RUN apk --no-cache add tzdata
 
 # ENV TZ=Asia/Tokyo 
-# # この辺はちょっと適当
-ENV GIN_MODE=debug 
 # この辺はちょっと適当
 
 # ホストの./backend/をコンテナの/appにコピー
