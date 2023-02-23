@@ -7,9 +7,7 @@ services:
       context: .
       dockerfile: docker/backend/Dockerfile
     environment:
-      # POSTGRES_DB: randomcooking
-      # POSTGRES_USER: root
-      # POSTGRES_PASSWORD: password
+  
       DATABASE_CLIENT: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
@@ -23,6 +21,23 @@ services:
           target: /app
     ports:
       - 8080:8080
+
+  # frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/frontend/Dockerfile
+  #   ports:
+  #   - "4200:4200"
+  #   volumes:
+  #     - "./frontend:/project"
+  #   tty: true
+  #   entrypoint:
+  #     - sh
+  #   command:
+  #     - -c
+  #     - |
+  #       npm install
+  #       ng serve --host 0.0.0.0
     
     # command:
     #   - -c
