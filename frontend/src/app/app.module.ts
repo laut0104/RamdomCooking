@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { MenuListComponent } from './pages/menu-list/menu-list.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuListComponent
+    MenuListComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
