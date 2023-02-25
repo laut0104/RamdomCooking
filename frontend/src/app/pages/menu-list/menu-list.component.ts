@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
-import {
-  HttpBackend,
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-  HttpRequest,
-} from '@angular/common/http';
-import { MenusResponse } from '../../../models/response';
 import { ApiService } from '../../drivers/api.service';
 import { Menu } from '../../../models/models';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,7 +20,7 @@ export class MenuListComponent implements OnInit {
   constructor(
     public menuRepoSvc: MenuRepoService,
     public apiSvc: ApiService,
-    private http: HttpClient
+    public router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +29,10 @@ export class MenuListComponent implements OnInit {
     this.menuRepoSvc.getMenus(id, query).subscribe((menus: any) => {
         this.menus = menus.menus
       })
+  }
+
+  public goToDetailPage(menuId: number): void {
+    this.router.navigate([`/menu`, menuId]);
   }
 
 }

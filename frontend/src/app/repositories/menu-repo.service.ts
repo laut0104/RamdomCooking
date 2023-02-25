@@ -18,4 +18,12 @@ export class MenuRepoService {
     return this.apiSvc.get(`menus/${uid}`, query)
   }
 
+  public getMenu(
+    uid: number,
+    id: number,
+    query: any
+  ): Observable<any> {
+    return this.apiSvc.get(`menu/${uid}/${id}`, query)
+  }
+
 }
