@@ -216,7 +216,7 @@ func line(c echo.Context) error {
 					var username string
 					rows.Scan(&id, &lineuserid, &username)
 					/*メニューの登録*/
-					_, err := db.Exec(`INSERT INTO menus (userid, menuname, recipes) VALUES($1, $2, '{テスト, メニューです}')`, id, message.Text)
+					_, err := db.Exec(`INSERT INTO menus (userid, menuname, recipes) VALUES($1, $2, '{"テスト/", "メニューです/"}')`, id, message.Text)
 					if err != nil {
 						log.Println(err)
 						return nil

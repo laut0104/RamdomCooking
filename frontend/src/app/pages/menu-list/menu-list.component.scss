@@ -2,9 +2,12 @@
 
 .container {
   @include styles.container;
-  .room-title {
+  .menu-title {
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
     .create-btn{
       margin: 10px;
       margin-left: 50px;

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-// // import { MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 // // import { CdkAccordionModule } from '@angular/cdk/accordion';
 // // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // // import { MatDialogModule } from '@angular/material/dialog';
@@ -20,7 +20,7 @@ import { MatTableModule } from '@angular/material/table';
   exports: [
     MatButtonModule,
     MatIconModule,
-    // // MatCardModule,
+    MatCardModule,
     // // CdkAccordionModule,
     // // MatProgressSpinnerModule,
     // // MatDialogModule,

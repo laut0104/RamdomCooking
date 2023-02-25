@@ -21,6 +21,7 @@ import { Menu } from '../../../models/models';
 export class MenuListComponent implements OnInit {
   public menus: Menu[] = [];
   displayedColumns: string[] = ['menu-name', 'button'];
+  public recipes: any[] = [];
 
 
 
@@ -33,13 +34,7 @@ export class MenuListComponent implements OnInit {
   ngOnInit(): void {
     const query = {}
     const id = 1
-    const url = `${environment.apiUrl}/menus/${id}`;
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    const menus = this.menuRepoSvc.getMenus(id, query).subscribe((menus: any) => {
+    this.menuRepoSvc.getMenus(id, query).subscribe((menus: any) => {
         this.menus = menus.menus
       })
   }

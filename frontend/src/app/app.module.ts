@@ -7,6 +7,7 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     AppComponent,
     MenuListComponent,
     HeaderComponent,
+    MenuDetailComponent,
   ],
   imports: [
     BrowserModule,
