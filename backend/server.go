@@ -11,6 +11,8 @@ import (
 	"log"
 	"net/http"
 
+	// "github.com/laut0104/RandomCooking/api/handler"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/line/line-bot-sdk-go/v7/linebot"
@@ -22,8 +24,20 @@ import (
 )
 
 type User struct {
-	lineuserid string
-	username   string
+	Id         int    `json:"id"`
+	Lineuserid string `json:"lineuserid"`
+	Username   string `json:"username"`
+}
+
+type Menu struct {
+	Id       int    `json:"id"`
+	Userid   int    `json:"userid"`
+	Menuname string `json:"menuname"`
+	Recipes  string `json:"recipes"`
+}
+
+type Menus struct {
+	Menus []Menu `json:"menus"`
 }
 
 func main() {
@@ -36,6 +50,9 @@ func main() {
 
 	// ルートを設定
 	e.GET("/", hello)
+	e.GET("/user/:id", getUser)
+	e.GET("/menu/:uid/:id", getMenu)
+	e.GET("/menus/:uid", getMenus)
 	e.POST("/callback", line)
 
 	// サーバーをポート番号8080で起動
@@ -50,18 +67,98 @@ func hello(c echo.Context) error {
 		log.Println(err)
 		return nil
 	}
-
-	if err := db.Ping(); err != nil {
-		log.Println(err)
+	/*データベースに登録されていない場合*/
+	rows, err := db.Query(`SELECT * FROM menus`)
+	if err != nil {
+		// log.Println(err)
+		fmt.Println(err)
 		return nil
 	}
-	fmt.Printf("%v", db)
+	for rows.Next() {
+		var id string
+		var userid int
+		var menuname string
+		var recipes string
+		err := rows.Scan(&id, &userid, &menuname, &recipes)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(userid, menuname, recipes, rows)
+	}
+
 	defer db.Close()
 
 	// return exitcode.Normal
 
 	return c.String(http.StatusOK, "Hello, World!")
 
+}
+
+func getUser(c echo.Context) error {
+	id := c.Param("id")
+	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	u := new(User)
+	err = db.QueryRow(`SELECT * FROM users where id=$1`, id).Scan(&u.Id, &u.Lineuserid, &u.Username)
+
+	defer db.Close()
+	return c.JSON(http.StatusOK, u)
+
+}
+
+func getMenu(c echo.Context) error {
+	uid := c.Param("uid")
+	id := c.Param("id")
+	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	menu := new(Menu)
+	err = db.QueryRow(`SELECT * FROM menus where id=$1 and userid=$2 `, id, uid).Scan(&menu.Id, &menu.Userid, &menu.Menuname, &menu.Recipes)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	fmt.Println(menu)
+	defer db.Close()
+	return c.JSON(http.StatusOK, menu)
+}
+
+func getMenus(c echo.Context) error {
+	uid := c.Param("uid")
+	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+
+	rows, err := db.Query(`SELECT * FROM menus where userid=$1 `, uid)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer rows.Close()
+	menus := Menus{}
+	menu := new(Menu)
+
+	for rows.Next() {
+		err := rows.Scan(&menu.Id, &menu.Userid, &menu.Menuname, &menu.Recipes)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		menus.Menus = append(menus.Menus, *menu)
+	}
+	fmt.Println(menus)
+	defer db.Close()
+	return c.JSON(http.StatusOK, menus)
 }
 
 func line(c echo.Context) error {
@@ -118,20 +215,32 @@ func line(c echo.Context) error {
 						log.Println(err)
 						return nil
 					}
+				} else {
+					var id int
+					var lineuserid string
+					var username string
+					rows.Scan(&id, &lineuserid, &username)
+					/*メニューの登録*/
+					_, err := db.Exec(`INSERT INTO menus (userid, menuname, recipes) VALUES($1, $2, '{テスト, メニューです}')`, id, message.Text)
+					if err != nil {
+						log.Println(err)
+						return nil
+					}
 				}
+
 				defer db.Close()
 
-				for rows.Next() {
-					var id string
-					var username string
-					var lineuserid string
-					err := rows.Scan(&id, &lineuserid, &username)
-					if err != nil {
-						fmt.Println(err)
-					}
-					fmt.Println(lineuserid, username, rows)
-					fmt.Println(rows == nil)
-				}
+				// for rows.Next() {
+				// 	var id string
+				// 	var username string
+				// 	var lineuserid string
+				// 	err := rows.Scan(&id, &lineuserid, &username)
+				// 	if err != nil {
+				// 		fmt.Println(err)
+				// 	}
+				// 	fmt.Println(lineuserid, username, rows)
+				// 	fmt.Println(rows == nil)
+				// }
 
 				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
 					log.Print(err)
