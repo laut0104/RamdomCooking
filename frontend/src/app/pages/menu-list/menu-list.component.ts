@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { MenuRepoService } from '../../repositories/menu-repo.service';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
+import { MenusResponse } from '../../../models/response';
+import { ApiService } from '../../drivers/api.service';
+import { Menu } from '../../../models/models';
+
 
 @Component({
   selector: 'app-menu-list',
@@ -6,20 +19,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu-list.component.scss']
 })
 export class MenuListComponent implements OnInit {
-  public menus = [
-    {
-      name: '料理テスト',
-    },
-    {
-      name: '料理です'
-    }
-
-  ];
+  public menus: Menu[] = [];
   displayedColumns: string[] = ['menu-name', 'button'];
 
-  constructor() { }
+
+
+  constructor(
+    public menuRepoSvc: MenuRepoService,
+    public apiSvc: ApiService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
+    const query = {}
+    const id = 1
+    const url = `${environment.apiUrl}/menus/${id}`;
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    const menus = this.menuRepoSvc.getMenus(id, query).subscribe((menus: any) => {
+        this.menus = menus.menus
+      })
   }
 
 }

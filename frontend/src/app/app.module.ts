@@ -6,22 +6,25 @@ import { MenuListComponent } from './pages/menu-list/menu-list.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuListComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
+    HttpClientModule
   ],
-  providers: [],
+  // providers: [
+  //   { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true },
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

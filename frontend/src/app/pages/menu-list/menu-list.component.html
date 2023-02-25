@@ -13,17 +13,17 @@
     <!-- Name Column -->
     <ng-container matColumnDef="menu-name">
       <th mat-header-cell *matHeaderCellDef> 料理名 </th>
-      <td mat-cell class="menu-name" *matCellDef="let menu"> {{menu.name}} </td>
+      <td mat-cell class="menu-name" *matCellDef="let menu"> {{menu.menuname}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell class="menu-btn" *matCellDef="let element">
-        <button mat-flat-button color="primary" class="edit">
+        <button mat-icon-button color="primary" class="edit">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-flat-button color="warn">
+        <button mat-icon-button color="warn">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
