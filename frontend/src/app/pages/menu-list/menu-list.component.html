@@ -1,11 +1,11 @@
 <app-header></app-header>
 <div class="container">
-  <div class="room-title">
+  <div class="menu-title">
     <h3 class="title">メニュー</h3>
     <button mat-raised-button color="primary" class="create-btn">新規作成</button>
   </div>
 
-  <table mat-table [dataSource]="menus" class="mat-elevation-z8">
+  <table mat-table [dataSource]="menus" class="mat-elevation-z8" *ngIf="menus.length != 0">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -32,4 +32,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <div class="menu-title" *ngIf="menus.length == 0">
+    <h3 class="title">データがありません</h3>
+  </div>
 </div>
