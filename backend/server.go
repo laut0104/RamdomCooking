@@ -1,8 +1,6 @@
 package main
 
 import (
-	// "github.com/gin-gonic/gin"
-
 	"database/sql"
 
 	_ "github.com/lib/pq"
@@ -16,11 +14,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/line/line-bot-sdk-go/v7/linebot"
-	// "github.com/joho/godotenv"
-	// _ "github.com/lib/pq"
-	// "github.com/joho/godotenv"
-	// "github.com/goark/gocli/config"
-	// "github.com/goark/gocli/exitcode"
 )
 
 type User struct {
@@ -47,6 +40,8 @@ func main() {
 	// ミドルウェアを設定
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	e.Use(middleware.CORS())
 
 	// ルートを設定
 	e.GET("/", hello)
