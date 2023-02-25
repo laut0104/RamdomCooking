@@ -5,7 +5,7 @@
   </div>
   <div class="subtitle">作り方</div>
   <div class="recipes" *ngFor="let recipe of recipes; index as i">
-    <div class="recipe-title">手順{{i}}</div>
+    <div class="recipe-title">手順{{i + 1}}</div>
     <mat-card class="recipe">
       <mat-card-content>
         <p>{{recipe}}</p>

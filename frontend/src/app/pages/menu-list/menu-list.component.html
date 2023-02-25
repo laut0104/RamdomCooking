@@ -19,8 +19,8 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell class="menu-btn" *matCellDef="let element">
-        <button mat-icon-button color="primary" class="edit">
+      <td mat-cell class="menu-btn" *matCellDef="let menu">
+        <button mat-icon-button color="primary" class="edit" (click)="goToDetailPage(menu.id)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn">
