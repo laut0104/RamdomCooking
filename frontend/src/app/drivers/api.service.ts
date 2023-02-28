@@ -47,16 +47,17 @@ export class ApiService {
     );
   }
 
-  // post(path: string, params = {}): any {
-  //   return this.http
-  //     .post<any[]>(`${environment.apiUrl}/${path}`, params, { ...this.options })
-  //     .pipe(
-  //       map((res: any) => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  post(path: string, params = {}): any {
+    return this.http
+      .post<any[]>(`${environment.apiUrl}/${path}`, params, { ...this.options })
+      .pipe(
+        map((res: any) => {
+          return res;
+        })
+        // }),
+        // catchError(this.handleError)
+      );
+  }
 
   // put(path: string, params = {}): any {
   //   return this.http

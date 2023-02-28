@@ -26,4 +26,11 @@ export class MenuRepoService {
     return this.apiSvc.get(`menu/${uid}/${id}`, query)
   }
 
+  public createMenu(
+    uid: number,
+    body: any
+  ): Observable<any> {
+    return this.apiSvc.post(`menu/${uid}`, body)
+  }
+
 }
