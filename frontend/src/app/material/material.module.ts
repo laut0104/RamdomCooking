@@ -8,8 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 // // import { MatDialogModule } from '@angular/material/dialog';
 // // import { MatRippleModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-// // import { MatFormFieldModule } from '@angular/material/form-field';
-// // import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 // // import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 // import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -26,8 +26,8 @@ import { MatTableModule } from '@angular/material/table';
     // // MatDialogModule,
     // // MatRippleModule,
     MatToolbarModule,
-    // // MatFormFieldModule,
-    // // MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
     // // MatSelectModule,
     MatTableModule,
     // MatSnackBarModule,

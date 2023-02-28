@@ -2,7 +2,7 @@
 <div class="container">
   <div class="menu-title">
     <h3 class="title">メニュー</h3>
-    <button mat-raised-button color="primary" class="create-btn">新規作成</button>
+    <button mat-raised-button color="primary" class="create-btn" routerLink="/menu-add" routerLinkActive="router-link-active" >新規作成</button>
   </div>
 
   <table mat-table [dataSource]="menus" class="mat-elevation-z8" *ngIf="menus.length != 0">

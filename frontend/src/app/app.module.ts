@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
+import { MenuAddComponent } from './pages/menu-add/menu-add.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,13 +18,16 @@ import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
     MenuListComponent,
     HeaderComponent,
     MenuDetailComponent,
+    MenuAddComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   // providers: [
   //   { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true },
