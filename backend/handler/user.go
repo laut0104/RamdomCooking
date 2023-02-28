@@ -23,7 +23,7 @@ func GetUser(c echo.Context) error {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return err
 	}
 	u := new(User)
 	err = db.QueryRow(`SELECT * FROM users where id=$1`, id).Scan(&u.Id, &u.Lineuserid, &u.Username)
