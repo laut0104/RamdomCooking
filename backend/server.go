@@ -32,6 +32,7 @@ func main() {
 	e.GET("/menu/:uid/:id", handler.GetMenu)
 	e.GET("/menus/:uid", handler.GetMenus)
 	e.POST("/menu/:uid", handler.AddMenu)
+	e.PUT("/menu/:uid/:id", handler.UpdateMenu)
 	e.POST("/callback", line)
 
 	// サーバーをポート番号8080で起動

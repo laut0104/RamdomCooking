@@ -30,13 +30,13 @@ func GetMenu(c echo.Context) error {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return err
 	}
 	menu := new(Menu)
 	err = db.QueryRow(`SELECT * FROM menus where id=$1 and userid=$2 `, id, uid).Scan(&menu.Id, &menu.Userid, &menu.Menuname, &menu.Recipes)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return err
 	}
 	fmt.Println(menu)
 	defer db.Close()
@@ -49,13 +49,13 @@ func GetMenus(c echo.Context) error {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return err
 	}
 
 	rows, err := db.Query(`SELECT * FROM menus where userid=$1 `, uid)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return err
 	}
 	defer rows.Close()
 	menus := Menus{}
@@ -75,26 +75,41 @@ func GetMenus(c echo.Context) error {
 }
 
 func AddMenu(c echo.Context) error {
-	// uid := c.Param("uid")
 	menu := new(Menu)
-	// menu := &Menu{}
-	fmt.Println(c)
 	if err := c.Bind(menu); err != nil {
 		return err
 	}
-	fmt.Println(menu)
 	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return err
 	}
 	_, err = db.Exec(`INSERT INTO menus (userid, menuname, recipes) VALUES($1, $2, $3)`, menu.Userid, menu.Menuname, menu.Recipes)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return err
 	}
-	fmt.Println(menu)
+	defer db.Close()
+	return c.JSON(http.StatusOK, menu)
+}
+
+func UpdateMenu(c echo.Context) error {
+	menu := new(Menu)
+	if err := c.Bind(menu); err != nil {
+		return err
+	}
+	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	_, err = db.Exec(`UPDATE menus SET(menuname, recipes)=($1, $2) WHERE id=$3 AND userid=$4`, menu.Menuname, menu.Recipes, menu.Id, menu.Userid)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 	defer db.Close()
 	return c.JSON(http.StatusOK, menu)
 }
