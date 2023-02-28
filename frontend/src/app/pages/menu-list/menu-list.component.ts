@@ -15,8 +15,6 @@ export class MenuListComponent implements OnInit {
   displayedColumns: string[] = ['menu-name', 'button'];
   public recipes: any[] = [];
 
-
-
   constructor(
     public menuRepoSvc: MenuRepoService,
     public apiSvc: ApiService,
