@@ -113,3 +113,22 @@ func UpdateMenu(c echo.Context) error {
 	defer db.Close()
 	return c.JSON(http.StatusOK, menu)
 }
+
+func DeleteMenu(c echo.Context) error {
+	uid := c.Param("uid")
+	id := c.Param("id")
+
+	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	_, err = db.Exec(`DELETE FROM menus WHERE id=$1 AND userid=$2`, id, uid)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer db.Close()
+	return c.NoContent(http.StatusOK)
+}
