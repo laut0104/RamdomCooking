@@ -29,8 +29,8 @@ export class MenuListComponent implements OnInit {
       })
   }
 
-  public goToDetailPage(menuId: number): void {
-    this.router.navigate([`/menu`, menuId]);
+  public goToEditPage(menuId: number): void {
+    this.router.navigate([`/menu-edit`, menuId]);
   }
 
 }

@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
 import { MenuAddComponent } from './pages/menu-add/menu-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     MenuDetailComponent,
     MenuAddComponent,
+    MenuEditComponent,
   ],
   imports: [
     BrowserModule,

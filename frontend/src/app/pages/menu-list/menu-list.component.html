@@ -13,14 +13,14 @@
     <!-- Name Column -->
     <ng-container matColumnDef="menu-name">
       <th mat-header-cell *matHeaderCellDef> 料理名 </th>
-      <td mat-cell class="menu-name" *matCellDef="let menu"> {{menu.menuname}} </td>
+      <td mat-cell class="menu-name" *matCellDef="let menu" routerLink="/menu/{{menu.id}}"> {{menu.menuname}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell class="menu-btn" *matCellDef="let menu">
-        <button mat-icon-button color="primary" class="edit" (click)="goToDetailPage(menu.id)">
+        <button mat-icon-button color="primary" class="edit" (click)="goToEditPage(menu.id)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn">
