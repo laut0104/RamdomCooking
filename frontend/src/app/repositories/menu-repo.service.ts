@@ -33,4 +33,12 @@ export class MenuRepoService {
     return this.apiSvc.post(`menu/${uid}`, body)
   }
 
+  public updateMenu(
+    uid: number,
+    id: number,
+    body: any
+  ): Observable<any> {
+    return this.apiSvc.put(`menu/${uid}/${id}`, body)
+  }
+
 }

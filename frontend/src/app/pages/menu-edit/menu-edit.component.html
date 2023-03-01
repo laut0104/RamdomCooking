@@ -1,0 +1,30 @@
+<app-header></app-header>
+<div class="container">
+  <form class ="form"[formGroup]="menuForm">
+    <div class="form-title">料理名</div>
+    <mat-form-field class="name" appearance="fill">
+      <mat-label>料理名</mat-label>
+      <input matInput formControlName="menuname">
+      <mat-error>必須入力です</mat-error>
+    </mat-form-field>
+    <ng-container class="recipes" formArrayName="recipes"> <!-- ts側のformArrayのstudentsNameと結びつける。 -->
+      <div class="form-title">作り方</div>
+      <mat-form-field class="recipe"appearance="fill" *ngFor="let recipes of recipes.controls; let i=index">
+        <mat-label>手順{{i+1}}</mat-label>
+        <textarea matInput [formControlName]="i"></textarea>
+        <mat-error>必須入力です。（'/'は使用できません）</mat-error>
+      </mat-form-field>
+    </ng-container>
+  </form>
+  <div class="button">
+    <button mat-mini-fab class="add" color="primary" (click)="addRecipes()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-mini-fab class="delete" color="Basic" (click)="removeRecipes()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div class="submit-button">
+    <button mat-raised-button color="primary" [disabled]="menuForm.invalid" (click) ="editMenu()">更新</button>
+  </div>
+</div>

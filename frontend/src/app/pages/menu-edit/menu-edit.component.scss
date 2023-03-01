@@ -1,0 +1,40 @@
+@use "src/styles/styles";
+
+.container {
+  @include styles.container;
+  .form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
+    .name{
+      min-width: 150px;
+      max-width: 500px;
+      width: 90%;
+    }
+    .recipe {
+      width: 90%;
+    }
+    .form-title{
+      font-size: 1.2em;
+      margin-top: 30px;
+    }
+  }
+  .button{
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    .add {
+    margin-left: auto;
+    margin-right: 2em;
+    }
+    .delete {
+      margin-right: auto;
+    }
+  }
+  .submit-button{
+    margin-top: 2em;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+  }
+}

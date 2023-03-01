@@ -59,16 +59,17 @@ export class ApiService {
       );
   }
 
-  // put(path: string, params = {}): any {
-  //   return this.http
-  //     .put<any[]>(`${environment.apiUrl}/${path}`, params, { ...this.options })
-  //     .pipe(
-  //       map((res: any) => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  put(path: string, params = {}): any {
+    return this.http
+      .put<any[]>(`${environment.apiUrl}/${path}`, params, { ...this.options })
+      .pipe(
+        map((res: any) => {
+          return res;
+        })
+        // }),
+        // catchError(this.handleError)
+      );
+  }
 
   // delete(path: string): any {
   //   return this.http

@@ -17,7 +17,6 @@ export class MenuDetailComponent implements OnInit {
     recipes: ''
   };
   public recipes: string[] = []
-  displayedColumns: string[] = ['menu-name', 'button'];
   private subscriptions: Subscription[] = [];
   public menuId!: number;
 

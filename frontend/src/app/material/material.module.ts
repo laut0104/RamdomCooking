@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 // // import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-// import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -30,7 +30,7 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     // // MatSelectModule,
     MatTableModule,
-    // MatSnackBarModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {}
