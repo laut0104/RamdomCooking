@@ -11,6 +11,7 @@ import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
 import { MenuAddComponent } from './pages/menu-add/menu-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
     MenuDetailComponent,
     MenuAddComponent,
     MenuEditComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,

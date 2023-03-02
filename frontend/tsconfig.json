@@ -30,5 +30,8 @@
     "strictTemplates": true,
     "experimentalDecorators": true,
   },
-  "include": []
+  "include": [
+    "components/**/*.ts",
+    "pages/**/*.ts",
+  ]
 }

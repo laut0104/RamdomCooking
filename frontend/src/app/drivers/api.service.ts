@@ -41,9 +41,8 @@ export class ApiService {
     return this.http.get<any[]>(url, { ...this.options }).pipe(
       map((res: any) => {
         return res;
-      })
-      // }),
-      // catchError(this.handleError)
+      }),
+      catchError(this.handleError)
     );
   }
 
@@ -53,9 +52,8 @@ export class ApiService {
       .pipe(
         map((res: any) => {
           return res;
-        })
-        // }),
-        // catchError(this.handleError)
+        }),
+        catchError(this.handleError)
       );
   }
 
@@ -65,29 +63,28 @@ export class ApiService {
       .pipe(
         map((res: any) => {
           return res;
-        })
-        // }),
-        // catchError(this.handleError)
+        }),
+        catchError(this.handleError)
       );
   }
 
-  // delete(path: string): any {
-  //   return this.http
-  //     .delete<any[]>(`${environment.apiUrl}/${path}`, { ...this.options })
-  //     .pipe(
-  //       map((res: any) => {
-  //         return res;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
+  delete(path: string): any {
+    return this.http
+      .delete<any[]>(`${environment.apiUrl}/${path}`, { ...this.options })
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(this.handleError)
+      );
+  }
 
   // // public getHoikutasu(path: string): any {
   // //   const url = `${environment.hoikutasuBackendUrl}/${path}`;
   // //   return this.httpBackend.handle(new HttpRequest('GET', url));
   // // }
 
-  // protected handleError(error: HttpErrorResponse): Observable<any> {
-  //   return throwError(() => error);
-  // }
+  protected handleError(error: HttpErrorResponse): Observable<any> {
+    return throwError(() => error);
+  }
 }
