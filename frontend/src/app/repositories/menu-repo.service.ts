@@ -41,4 +41,11 @@ export class MenuRepoService {
     return this.apiSvc.put(`menu/${uid}/${id}`, body)
   }
 
+  public deleteMenu(
+    uid: number,
+    id: number
+  ): Observable<any> {
+    return this.apiSvc.delete(`menu/${uid}/${id}`)
+  }
+
 }

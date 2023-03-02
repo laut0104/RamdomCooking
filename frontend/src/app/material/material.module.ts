@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 // // import { CdkAccordionModule } from '@angular/cdk/accordion';
 // // import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// // import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 // // import { MatRippleModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +23,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     // // CdkAccordionModule,
     // // MatProgressSpinnerModule,
-    // // MatDialogModule,
+    MatDialogModule,
     // // MatRippleModule,
     MatToolbarModule,
     MatFormFieldModule,
