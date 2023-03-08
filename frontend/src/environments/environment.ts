@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080'
+  // apiUrl: 'https://ca10-103-5-140-187.jp.ngrok.io',
+  apiUrl: '/api',
+  LIFF_ID: '1660690567-wegZZboy',
 };
 
 /*

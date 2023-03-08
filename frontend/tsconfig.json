@@ -31,7 +31,6 @@
     "experimentalDecorators": true,
   },
   "include": [
-    "components/**/*.ts",
-    "pages/**/*.ts",
+    "*",
   ]
 }

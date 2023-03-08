@@ -12,6 +12,7 @@ import { MenuAddComponent } from './pages/menu-add/menu-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { LiffInitComponent } from './pages/liff-init/liff-init.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     MenuAddComponent,
     MenuEditComponent,
     DeleteDialogComponent,
+    LiffInitComponent,
   ],
   imports: [
     BrowserModule,
