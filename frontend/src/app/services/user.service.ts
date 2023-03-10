@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ApiService } from '../drivers/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   public jwt$ = new BehaviorSubject<string | null>(null);
+  public user$ = new BehaviorSubject<any>(null);
 
-  constructor() { }
+  constructor(
+    private apiSvc: ApiService,
+  ) { }
 
   public login(accessToken: string | null): Observable<boolean> {
     return new Observable((observer) => {
@@ -35,6 +39,18 @@ export class UserService {
           console.log(err);
           observer.next(false);
         });
+    });
+  }
+
+  public setUserToLocalStorage(lineuserid: string): Observable<boolean> {
+    const query = {
+      "lineuserid": lineuserid
+    }
+    return new Observable((observer) => {
+      this.apiSvc.get(`user`, query).subscribe((res: any) => {
+        this.user$.next(res);
+        observer.next(true);
+      });
     });
   }
 }

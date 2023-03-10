@@ -37,25 +37,28 @@ export class AuthGuard implements CanActivate {
         const idToken = this.liffSvc.liff.getIDToken();
         console.log(idToken)
         // strapiloginの中でやっているユーザー取得と保育園取得を分けたい
-        this.userSvc.login(idToken).subscribe((res) => console.log(res))
+        // ユーザー情報をローカルストレージに格納したい
         return this.userSvc.login(idToken);
       }),
-      // mergeMap((isLoggedInToStrapi) => {
-      //   if (!isLoggedInToStrapi) {
-      //     // Strapiログインに失敗した場合
-      //   }
+      mergeMap((isLoggedIn) => {
+        if (!isLoggedIn) {
+          // ログインに失敗した場合
+        }
 
-      //   // Strapiログイン後にlocal storageにUserデータを保持する
-      //   return new Observable((observer) => {
-      //     this.userSvc.setUserToLocalStorage().subscribe(() => {
-      //       observer.next(true);
-      //     });
-      //   });
-      // }),
-      // map((res) => {
-      //   console.log(res);
-      //   return true;
-      // })
+        // ログイン後にlocal storageにUserデータを保持する
+        return new Observable((observer) => {
+          const idToken = this.liffSvc.liff.getDecodedIDToken();
+          this.userSvc.setUserToLocalStorage(idToken?.sub!).subscribe(() => {
+            observer.next(true);
+          });
+        });
+      }),
+      map((res) => {
+        console.log(res);
+        // const idToken = this.liffSvc.liff.getDecodedIDToken();
+        // this.userSvc.setUserToLocalStorage(idToken?.sub!);
+        return true;
+      })
     );
   }
 }

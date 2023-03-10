@@ -10,18 +10,22 @@ import { MenuListComponent } from './pages/menu-list/menu-list.component';
 const routes: Routes = [
   {
     path: 'menu-list',
+    canActivate: [AuthGuard],
     component: MenuListComponent,
   },
   {
     path: 'menu/:id',
+    canActivate: [AuthGuard],
     component: MenuDetailComponent,
   },
   {
     path: 'menu-add',
+    canActivate: [AuthGuard],
     component: MenuAddComponent,
   },
   {
     path: 'menu-edit/:id',
+    canActivate: [AuthGuard],
     component: MenuEditComponent,
   },
   {
