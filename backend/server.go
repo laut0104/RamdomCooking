@@ -56,7 +56,8 @@ func main() {
 
 	// ルートを設定
 	e.GET("/", hello)
-	e.GET("/user/:id", handler.GetUser)
+	e.GET("/user/:id", handler.GetUserById)
+	e.GET("/user", handler.GetUser)
 	e.GET("/menu/:uid/:id", handler.GetMenu)
 	e.GET("/menus/:uid", handler.GetMenus)
 	e.POST("/menu/:uid", handler.AddMenu)

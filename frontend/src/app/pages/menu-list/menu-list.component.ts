@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../components/delete-dialog/delete-dialog.component';
 import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MenuListComponent implements OnInit {
 
   constructor(
     public menuRepoSvc: MenuRepoService,
+    public userSvc: UserService,
     public apiSvc: ApiService,
     public router: Router,
     public dialog: MatDialog,
@@ -32,7 +34,7 @@ export class MenuListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = 1
+    this.userId = this.userSvc.user$.getValue().id
     this.getMenus();
   }
 
