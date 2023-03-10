@@ -37,6 +37,7 @@ export class AuthGuard implements CanActivate {
         const idToken = this.liffSvc.liff.getIDToken();
         console.log(idToken)
         // strapiloginの中でやっているユーザー取得と保育園取得を分けたい
+        this.userSvc.login(idToken).subscribe((res) => console.log(res))
         return this.userSvc.login(idToken);
       }),
       // mergeMap((isLoggedInToStrapi) => {

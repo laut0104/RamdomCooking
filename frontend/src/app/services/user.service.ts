@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  public jwt$ = new BehaviorSubject<string | null>(null);
+
   constructor() { }
 
   public login(accessToken: string | null): Observable<boolean> {
@@ -16,18 +18,18 @@ export class UserService {
         `${environment.apiUrl}/auth/line/callback?access_token=${accessToken}`, options
       )
         .then((res) => {
-          console.log(res.json())
-          // if (res.status !== 200) {
-          //   throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
-          // }
-          // return res.json();
+          console.log(res.status)
+          if (res.status !== 200) {
+            throw new Error(`Couldn't login. Status: ${res.status}`);
+          }
+          return res.json();
         })
         .then((res) => {
-          // Successfully logged with Strapi
-          // Now saving the jwt to use it for future authenticated requests to Strapi
-
-          // this.jwt$.next(res.jwt);
-          // observer.next(true);
+          // Successfully logged
+          // Now saving the jwt to use it for future authenticated requests to backend
+          this.jwt$.next(res.token);
+          console.log(this.jwt$.getValue())
+          observer.next(true);
         })
         .catch((err) => {
           console.log(err);

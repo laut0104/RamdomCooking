@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"strings"
-	"time"
 
 	_ "github.com/lib/pq"
 
@@ -64,7 +63,6 @@ func main() {
 	e.PUT("/menu/:uid/:id", handler.UpdateMenu)
 	e.DELETE("/menu/:uid/:id", handler.DeleteMenu)
 	e.POST("/callback", line)
-	// e.GET("/api/auth/line/callback", login)
 	e.GET("/auth/line/callback", login)
 
 	// サーバーをポート番号8080で起動
@@ -100,8 +98,6 @@ func hello(c echo.Context) error {
 
 	defer db.Close()
 
-	// return exitcode.Normal
-
 	return c.String(http.StatusOK, "Hello, World!")
 
 }
@@ -131,7 +127,6 @@ func login(c echo.Context) error {
 
 	byteArray, err := io.ReadAll(resp.Body)
 	post := new(LineAuthResponse)
-	// decoder := json.NewDecoder(resp.Body)
 	if err != nil {
 		fmt.Println("Error")
 	}
@@ -139,33 +134,11 @@ func login(c echo.Context) error {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(post.Name, post.Sub)
-	access := getjwt(post.Name, post.Sub)
+	token := handler.Getjwt(post.Name, post.Sub)
 
-	// res, err := http.Post("https://api.line.me/oauth2/v2.1/verify", contentType, body)
-	// // url := c.QueryParam("liffRedirectUri")
-	// fmt.Println(code)
-	// // getjwt(code, url)
-	return c.JSON(200, access)
-}
-
-func getjwt(name, uid string) string {
-	mySigningKey := []byte("RandomCookingByYano")
-	claims := JwtClaims{
-		name,
-		uid,
-		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString(mySigningKey)
-	fmt.Println(ss)
-	if err != nil {
-		fmt.Println(err)
-		// return err
-	}
-	return ss
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": token,
+	})
 }
 
 func line(c echo.Context) error {
