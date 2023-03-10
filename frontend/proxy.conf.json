@@ -1,0 +1,11 @@
+{
+  "/api/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "https://7ab2-133-82-251-188.jp.ngrok.io/"
+    },
+    "logLevel": "debug"
+  }
+}
