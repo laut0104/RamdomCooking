@@ -16,7 +16,7 @@ export class UserService {
         `${environment.apiUrl}/auth/line/callback?access_token=${accessToken}`, options
       )
         .then((res) => {
-          console.log(res)
+          console.log(res.json())
           // if (res.status !== 200) {
           //   throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
           // }

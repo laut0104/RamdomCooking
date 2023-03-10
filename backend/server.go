@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"strings"
+	"time"
 
 	_ "github.com/lib/pq"
 
@@ -15,6 +16,7 @@ import (
 
 	"github.com/laut0104/RandomCooking/handler"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/line/line-bot-sdk-go/v7/linebot"
@@ -36,6 +38,11 @@ type LineAuthResponse struct {
 	Amr     []string `json:"amr"`
 	Name    string   `json:"name"`
 	Picture string   `json:"picture"`
+}
+type JwtClaims struct {
+	Name   string `json:"name"`
+	UserId string `json:"uid"`
+	jwt.RegisteredClaims
 }
 
 func main() {
@@ -133,56 +140,32 @@ func login(c echo.Context) error {
 		fmt.Println(err)
 	}
 	fmt.Println(post.Name, post.Sub)
+	access := getjwt(post.Name, post.Sub)
 
 	// res, err := http.Post("https://api.line.me/oauth2/v2.1/verify", contentType, body)
 	// // url := c.QueryParam("liffRedirectUri")
 	// fmt.Println(code)
 	// // getjwt(code, url)
-	return c.JSON(200, "LoginOK")
+	return c.JSON(200, access)
 }
 
-func getjwt(token, uri string) error {
-	fmt.Println(token)
-	form := url.Values{}
-	form.Set("grant_type", "authorization_code")
-	form.Set("client_id", "1660690567")
-	form.Set("client_secret", "cf7128f88d71b8e25d530bf33a4e6d9f")
-	form.Set("code", token)
-	form.Set("redirect_uri", uri)
-	fmt.Println(form)
-	body := strings.NewReader(form.Encode()) // リクエストのbodyを作成
-	req, err := http.NewRequest(http.MethodPost, "https://api.line.me/oauth2/v2.1/token", body)
-	if err != nil {
-		return err
+func getjwt(name, uid string) string {
+	mySigningKey := []byte("RandomCookingByYano")
+	claims := JwtClaims{
+		name,
+		uid,
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 1)),
+		},
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	// 作成したリクエストの送信
-	client := &http.Client{}
-	res, err := client.Do(req)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	ss, err := token.SignedString(mySigningKey)
+	fmt.Println(ss)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+		// return err
 	}
-	fmt.Println(res)
-	defer res.Body.Close()
-
-	// レスポンスの解析
-	var r io.Reader = res.Body
-
-	var foo Foo
-	err = json.NewDecoder(r).Decode(&foo)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bytes, err := json.Marshal(foo)
-
-	fmt.Println("🎁チャネルアクセストークンを含むペイロード")
-	fmt.Println(string(bytes))
-
-	fmt.Println("🔑チャネルアクセストークン")
-	fmt.Println(foo.Token)
-	return nil
+	return ss
 }
 
 func line(c echo.Context) error {
