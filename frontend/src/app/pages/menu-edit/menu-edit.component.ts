@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from '../../../models/models';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-menu-edit',
@@ -37,13 +38,14 @@ export class MenuEditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private menuRepoSvc: MenuRepoService,
+    private userSvc: UserService,
     public router: Router,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
-    const userId = 1
+    const userId = this.userSvc.user$.getValue().id
     this.subscriptions.push(
       this.route.params.subscribe(params => {
         this.menuId = Number(params['id']);
