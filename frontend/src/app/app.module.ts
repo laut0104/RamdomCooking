@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { LiffInitComponent } from './pages/liff-init/liff-init.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { LiffInitComponent } from './pages/liff-init/liff-init.component';
     MenuEditComponent,
     DeleteDialogComponent,
     LiffInitComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
