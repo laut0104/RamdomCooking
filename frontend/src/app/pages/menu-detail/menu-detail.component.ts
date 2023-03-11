@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from '../../../models/models';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-menu-detail',
@@ -22,6 +23,7 @@ export class MenuDetailComponent implements OnInit {
 
   constructor(
     private menuRepoSvc: MenuRepoService,
+    private userSvc: UserService,
     private route: ActivatedRoute,
   ) { }
 
@@ -32,7 +34,7 @@ export class MenuDetailComponent implements OnInit {
       })
     );
     const query = {}
-    const userId = 1
+    const userId = this.userSvc.user$.getValue().id
     this.menuRepoSvc.getMenu(userId, this.menuId, query).subscribe((menu) => {
       this.menu = menu
       /* レシピの形成 */

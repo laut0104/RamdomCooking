@@ -33,10 +33,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: LiffInitComponent,
   },
-  // {
-  //   path: '',
-  //   component: LiffInitComponent,
-  // }
 ];
 
 @NgModule({

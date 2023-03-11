@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-menu-add',
@@ -20,14 +21,18 @@ export class MenuAddComponent implements OnInit {
     ])
   });
   public recipe: string = '{'
+  public userId: number = 0;
 
   constructor(
     private fb: FormBuilder,
     private menuRepoSvc: MenuRepoService,
+    private userSvc: UserService,
     public router: Router,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userId = this.userSvc.user$.getValue().id
+  }
 
   get recipes() {
     return this.menuForm.get('recipes') as FormArray;
@@ -52,7 +57,7 @@ export class MenuAddComponent implements OnInit {
       'menuname': this.menuForm.value.menuname,
       'recipes': this.recipe,
     }
-    this.menuRepoSvc.createMenu(1, body).subscribe(() => {
+    this.menuRepoSvc.createMenu(this.userId, body).subscribe(() => {
       this.router.navigate([`/menu-list`]);
     })
   }

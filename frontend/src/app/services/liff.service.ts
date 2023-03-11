@@ -34,12 +34,8 @@ export class LiffService {
           else {
             liff.login();
           }
-          // liff.login();
         } else {
           // ログイン成功
-          // const idToken = liff.getDecodedIDToken();
-          // console.log(idToken)
-          // this.userSvc.setUserToLocalStorage(idToken?.sub!);
           observer.next(true);
         }
     }).catch((err) => {
