@@ -61,5 +61,4 @@ export class MenuAddComponent implements OnInit {
       this.router.navigate([`/menu-list`]);
     })
   }
-
 }
