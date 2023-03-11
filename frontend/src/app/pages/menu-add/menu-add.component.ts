@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
 
@@ -28,6 +30,7 @@ export class MenuAddComponent implements OnInit {
     private menuRepoSvc: MenuRepoService,
     private userSvc: UserService,
     public router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -61,4 +64,34 @@ export class MenuAddComponent implements OnInit {
       this.router.navigate([`/menu-list`]);
     })
   }
+
+  goToListPage() {
+    let isBlank: boolean = true;
+    if(this.menuForm.value.menuname === ""){
+      for (let recipe of this.menuForm.value.recipes!) {
+        if(recipe !== "") {
+          this.openDialog()
+          isBlank = false;
+          break
+        }
+      }
+      if(isBlank) this.router.navigate(['menu-list'])
+    }
+    else{
+      this.openDialog()
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result.event === "ok") {
+        this.router.navigate(["/menu-list"])
+      }
+    });
+  }
+
 }
