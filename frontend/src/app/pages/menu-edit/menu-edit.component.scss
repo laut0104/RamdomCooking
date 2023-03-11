@@ -2,6 +2,18 @@
 
 .container {
   @include styles.container;
+  .page-title {
+    display: flex;
+    align-items: center;
+    .back{
+      margin-top: 0.7em;
+      margin-left: 2em;
+    }
+    .title{
+      margin-top: 1.5em;
+      margin-left: 3em;
+    }
+  }
   .form {
     display: flex;
     flex-direction: column;

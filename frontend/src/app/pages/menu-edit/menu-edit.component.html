@@ -1,5 +1,14 @@
 <app-header></app-header>
 <div class="container">
+  <div class="page-title">
+    <button mat-icon-button class="back" routerLink="/menu-list">
+      <mat-icon>
+        arrow_back_ios_new
+      </mat-icon>
+      戻る
+    </button>
+    <h2 class="title">メニュー編集</h2>
+  </div>
   <form class ="form"[formGroup]="menuForm">
     <div class="form-title">料理名</div>
     <mat-form-field class="name" appearance="fill">
