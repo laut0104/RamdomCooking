@@ -84,6 +84,9 @@ export class MenuAddComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        confirmsentence: "入力途中のデータは消えますが移動しますか？",
+      },
       width: '400px',
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -93,5 +96,4 @@ export class MenuAddComponent implements OnInit {
       }
     });
   }
-
 }
