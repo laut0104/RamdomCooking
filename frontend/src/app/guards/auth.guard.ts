@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     const path = state.url;
-    const isLinkingNursery = path === '';
 
     return this.liffSvc.liffInit(environment.LIFF_ID, path).pipe(
       mergeMap((isLoggedInToLiff) => {
@@ -44,7 +43,6 @@ export class AuthGuard implements CanActivate {
         if (!isLoggedIn) {
           // ログインに失敗した場合
         }
-
         // ログイン後にlocal storageにUserデータを保持する
         return new Observable((observer) => {
           const idToken = this.liffSvc.liff.getDecodedIDToken();
@@ -54,9 +52,6 @@ export class AuthGuard implements CanActivate {
         });
       }),
       map((res) => {
-        console.log(res);
-        // const idToken = this.liffSvc.liff.getDecodedIDToken();
-        // this.userSvc.setUserToLocalStorage(idToken?.sub!);
         return true;
       })
     );

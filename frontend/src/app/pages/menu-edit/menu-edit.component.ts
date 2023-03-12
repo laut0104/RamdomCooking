@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from '../../../models/models';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
 
@@ -42,6 +44,7 @@ export class MenuEditComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -98,5 +101,37 @@ export class MenuEditComponent implements OnInit {
       });
       this.router.navigate([`/menu`, this.menu.id]);
     })
+  }
+
+  goToListPage() {
+    let isBlank: boolean = true;
+    if(this.menuForm.value.menuname === this.menu.menuname && this.menuForm.value.recipes!.length === this.recipe.length){
+      for (let index = 0; index < this.menuForm.value.recipes!.length; index++) {
+        if(this.menuForm.value.recipes![index] !== this.recipe[index]){
+          this.openDialog()
+          isBlank = false;
+          break
+        }
+      }
+      if(isBlank) this.router.navigate(['menu-list'])
+    }
+    else{
+      this.openDialog()
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        confirmsentence: "編集が反映されていないですが本当に移動しますか？"
+      },
+      width: '400px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+      if(result.event === "ok") {
+        this.router.navigate(["/menu-list"])
+      }
+    });
   }
 }

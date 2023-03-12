@@ -10,7 +10,7 @@ export class DeleteDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {menuname: string},
+    @Inject(MAT_DIALOG_DATA) public data: { menuname: string },
   ) { }
 
   ngOnInit(): void {
