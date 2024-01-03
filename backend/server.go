@@ -82,7 +82,7 @@ func hello(c echo.Context) error {
 	rows, err := db.Query(`SELECT * FROM menus`)
 	if err != nil {
 		// log.Println(err)
-		fmt.Println(err)
+		log.Println(err)
 		return nil
 	}
 	for rows.Next() {
@@ -92,9 +92,9 @@ func hello(c echo.Context) error {
 		var recipes string
 		err := rows.Scan(&id, &userid, &menuname, &recipes)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		}
-		fmt.Println(userid, menuname, recipes, rows)
+		log.Println(userid, menuname, recipes, rows)
 	}
 
 	defer db.Close()
@@ -114,14 +114,14 @@ func login(c echo.Context) error {
 		strings.NewReader(values.Encode()),
 	)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return err
 	}
 	defer resp.Body.Close()
@@ -129,11 +129,11 @@ func login(c echo.Context) error {
 	byteArray, err := io.ReadAll(resp.Body)
 	post := new(LineAuthResponse)
 	if err != nil {
-		fmt.Println("Error")
+		log.Println("Error")
 	}
 	err = json.Unmarshal(byteArray, &post)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	token := handler.Getjwt(post.Name, post.Sub)
 
@@ -163,7 +163,7 @@ func line(c echo.Context) error {
 		switch event.Type {
 		case linebot.EventTypeFollow:
 			message := "友達登録ありがとう！\nあなたの名前を教えてね！\n※10文字以内"
-			fmt.Printf("%v", event)
+			log.Printf("%v", event)
 			if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message)).Do(); err != nil {
 				log.Print(err)
 				errmsg := "正常にユーザー登録できませんでした\nブロックし、もう一度友達登録をお願いします"
@@ -185,7 +185,7 @@ func line(c echo.Context) error {
 
 				rows, err := db.Query(`SELECT * FROM users where lineuserId=$1`, event.Source.UserID)
 				if err != nil {
-					fmt.Println(err)
+					log.Println(err)
 				}
 				defer rows.Close()
 

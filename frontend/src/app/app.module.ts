@@ -14,7 +14,7 @@ import { MenuEditComponent } from './pages/menu-edit/menu-edit.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { LiffInitComponent } from './pages/liff-init/liff-init.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-
+import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,11 +35,15 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  // providers: [
-  //   { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true },
-  // ],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

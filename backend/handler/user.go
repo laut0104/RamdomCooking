@@ -26,7 +26,10 @@ func GetUserById(c echo.Context) error {
 		return err
 	}
 	u := new(User)
-	err = db.QueryRow(`SELECT * FROM users where id=$1`, id).Scan(&u.Id, &u.Lineuserid, &u.Username)
+	if err = db.QueryRow(`SELECT * FROM users where id=$1`, id).Scan(&u.Id, &u.Lineuserid, &u.Username); err != nil {
+		log.Println(err)
+		return err
+	}
 
 	defer db.Close()
 	return c.JSON(http.StatusOK, u)
@@ -34,6 +37,7 @@ func GetUserById(c echo.Context) error {
 }
 
 func GetUser(c echo.Context) error {
+	log.Println("test=====")
 	lineid := c.QueryParam("lineuserid")
 	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
@@ -42,8 +46,11 @@ func GetUser(c echo.Context) error {
 		return err
 	}
 	u := new(User)
-	err = db.QueryRow(`SELECT * FROM users where lineuserid=$1`, lineid).Scan(&u.Id, &u.Lineuserid, &u.Username)
-
+	if err = db.QueryRow(`SELECT * FROM users where lineuserid=$1`, lineid).Scan(&u.Id, &u.Lineuserid, &u.Username); err != nil {
+		log.Println(err)
+		return err
+	}
+	log.Println(u)
 	defer db.Close()
 	return c.JSON(http.StatusOK, u)
 
