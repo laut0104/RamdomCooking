@@ -42,7 +42,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: lazinator
+      POSTGRES_DB: randomcooking
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
     volumes:
