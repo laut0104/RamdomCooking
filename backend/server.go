@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"io"
+	"os"
 	"strings"
 
 	_ "github.com/lib/pq"
@@ -16,6 +17,7 @@ import (
 	"github.com/laut0104/RandomCooking/handler"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/line/line-bot-sdk-go/v7/linebot"
@@ -54,6 +56,10 @@ func main() {
 
 	e.Use(middleware.CORS())
 
+	if err := godotenv.Load(".env"); err != nil {
+		log.Println(err)
+	}
+
 	// ルートを設定
 	e.GET("/", hello)
 	e.GET("/user/:id", handler.GetUserById)
@@ -72,7 +78,7 @@ func main() {
 
 // ハンドラーを定義
 func hello(c echo.Context) error {
-	connStr := "user=root dbname=randomcooking password=password host=postgres sslmode=disable"
+	connStr := "user=" + os.Getenv("DB_USER") + "dbname=" + os.Getenv("DB_NAME") + "host=postgres sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Println(err)
@@ -144,10 +150,8 @@ func login(c echo.Context) error {
 
 func line(c echo.Context) error {
 	bot, err := linebot.New(
-		// 	// os.Getenv("LINE_BOT_CHANNEL_SECRET"),
-		// 	// os.Getenv("LINE_BOT_CHANNEL_TOKEN"),
-		"28054097ea37d55e61e6d0589e5c869f",
-		"e98a/3YltcPyahTpVzVWlqFIc7CiGjhlopb0ibpf83CoGK9nsK5YspJsbMOF3TDxhPfiDEeBeTyHNtJSk7Om3M64rgYB45EQKQGUhHoEJ/OvJ7USvstzsRKPrskxBrEIqdIZrWKX7xksHuNDrPW9hwdB04t89/1O/w1cDnyilFU=",
+		os.Getenv("LINE_BOT_CHANNEL_SECRET"),
+		os.Getenv("LINE_BOT_CHANNEL_TOKEN"),
 	)
 	events, err := bot.ParseRequest(c.Request())
 	if err != nil {
