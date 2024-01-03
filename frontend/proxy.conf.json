@@ -4,7 +4,7 @@
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/api": "https://bad7-1-75-233-116.jp.ngrok.io/"
+      "^/api": "https://9de3-103-5-140-179.ngrok-free.app/"
     },
     "logLevel": "debug"
   }

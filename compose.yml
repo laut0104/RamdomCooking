@@ -1,78 +1,50 @@
-version: '3'
+version: "3"
 
 services:
- # backend
   backend:
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
-    environment:
-  
-      DATABASE_CLIENT: postgres
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_NAME: randomcooking
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: password
+    # environment:
+    #   DATABASE_CLIENT: postgres
+    #   DATABASE_HOST: postgres
+    #   DATABASE_PORT: 5432
+    #   DATABASE_NAME: randomcooking
+    #   DATABASE_USERNAME: root
+    #   DATABASE_PASSWORD: password
     command: "go run server.go" # ソースコードを変更してもこの設定では反映されないため、都度コンテナをbuildしなければならない
     volumes:
-        - type: bind
-          source: ./backend
-          target: /app
+      - type: bind
+        source: ./backend
+        target: /app
     ports:
       - 8080:8080
 
-  # frontend:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/frontend/Dockerfile
-  #   ports:
-  #   - "4200:4200"
-  #   volumes:
-  #     - "./frontend:/project"
-  #   tty: true
-  #   entrypoint:
-  #     - sh
-  #   command:
-  #     - -c
-  #     - |
-  #       npm install
-  #       ng serve --host 0.0.0.0
-    
-    # command:
-    #   - -c
-    #   - |
-    #     npm install
-    #     ng serve --host 0.0.0.0 --disable-host-check
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./frontend:/projects/frontend"
+    tty: true
+    entrypoint:
+      - sh
+    command:
+      - -c
+      - |
+        npm install
+        ng serve --host 0.0.0.0 --disable-host-check --hmr --proxy-config proxy.conf.json
 
   postgres:
     image: postgres
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: randomcooking
+      POSTGRES_DB: lazinator
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
     volumes:
       - ./docker/data:/var/lib/postgresql/data
       - ./docker/postgres/sql:/docker-entrypoint-initdb.d
-
-
-  # pgadmin4:
-  #   container_name: devenv_pgadmin4
-  #   image: dpage/pgadmin4:4.29
-  #   env_file:
-  #     - docker/pgadmin4/.env
-  #   depends_on:
-  #     - postgresql
-  #   ports:
-  #     - 5433:80
-  #   networks:
-  #     - container_link
-  #   volumes:
-  #     - pgadmin4_data:/var/lib/pgadmin:rw
-  #   # logging:
-  #   #   driver: json-file
-  #   #   options:
-  #   #     max-size: '5m'
-  #   #     max-file: '1'
