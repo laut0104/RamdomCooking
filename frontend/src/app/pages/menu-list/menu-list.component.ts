@@ -5,20 +5,21 @@ import { Menu } from '../../../models/models';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../components/delete-dialog/delete-dialog.component';
-import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { UserService } from '../../services/user.service';
-
 
 @Component({
   selector: 'app-menu-list',
   templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.scss']
+  styleUrls: ['./menu-list.component.scss'],
 })
 export class MenuListComponent implements OnInit {
   public menus: Menu[] = [];
   displayedColumns: string[] = ['menu-name', 'button'];
-  public recipes: any[] = [];
   public userId!: number;
   public verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -30,11 +31,11 @@ export class MenuListComponent implements OnInit {
     public apiSvc: ApiService,
     public router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.userSvc.user$.getValue().id
+    this.userId = this.userSvc.user$.getValue().ID;
     this.getMenus();
   }
 
@@ -43,10 +44,11 @@ export class MenuListComponent implements OnInit {
   }
 
   public getMenus() {
-    const query = {}
+    const query = {};
     this.menuRepoSvc.getMenus(this.userId, query).subscribe((menus: any) => {
-      this.menus = menus.menus
-    })
+      console.log(menus);
+      this.menus = menus;
+    });
   }
 
   public openDeleteDialog(menuId: number, menuname: string) {
@@ -58,19 +60,17 @@ export class MenuListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.event === "delete") {
-        this.menuRepoSvc.deleteMenu(this.userId,menuId).subscribe(() => {
+      if (result.event === 'delete') {
+        this.menuRepoSvc.deleteMenu(this.userId, menuId).subscribe(() => {
           this.getMenus();
           this.menusTable?.renderRows();
           const changedMessage = menuname + 'を削除しました';
           this._snackBar.open(changedMessage, 'OK', {
             verticalPosition: this.verticalPosition,
-            duration: 3000
+            duration: 3000,
           });
         });
       }
     });
-
   }
-
 }
