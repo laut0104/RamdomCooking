@@ -21,19 +21,16 @@ export class LiffService {
           if (!liff.isInClient() && !liff.isLoggedIn()) {
             // 外部ブラウザで開いている、かつLINEログインしていない場合
             // LIFFブラウザで開いた場合、init()内でログイン処理が行われる
-            console.log(path);
             if (path) {
               // liff.login()でログインした場合、デフォルトのリダイレクト先はエンドポイントURLとなる
               // 2次リダイレクトが無効となってしまうため、pathが存在する場合はリダイレクト先を指定する
               const redirectUri = `${location.origin}/${path}`;
-              console.log(redirectUri);
-              liff.login();
+              liff.login({ redirectUri });
             } else {
               liff.login();
             }
           } else {
             // ログイン成功
-            console.log('test1');
             observer.next(true);
           }
         })
