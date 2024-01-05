@@ -21,22 +21,9 @@ export class ApiService {
     }),
   };
 
-  // setMultiPartFormDataHeader() {
-  //   this.options.headers = this.options.headers.set(
-  //     'Content-Type',
-  //     'multipart/form-data'
-  //   );
-  // }
-
-  // removeContentTypeHeader() {
-  //   this.options.headers = this.options.headers.delete('Content-Type');
-  // }
-
   public get(path: string, query = {}): any {
     const queryStr = query ? `?${qs.stringify(query)}` : '';
     const url = `${environment.apiUrl}/${path}${queryStr}`;
-    console.log(environment.apiUrl);
-    console.log(url);
     return this.http.get<any[]>(url, { ...this.options }).pipe(
       map((res: any) => {
         return res;
@@ -77,11 +64,6 @@ export class ApiService {
         catchError(this.handleError)
       );
   }
-
-  // // public getHoikutasu(path: string): any {
-  // //   const url = `${environment.hoikutasuBackendUrl}/${path}`;
-  // //   return this.httpBackend.handle(new HttpRequest('GET', url));
-  // // }
 
   protected handleError(error: HttpErrorResponse): Observable<any> {
     return throwError(() => error);

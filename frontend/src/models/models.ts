@@ -2,5 +2,5 @@ export interface Menu {
   id: number;
   userid: number;
   menuname: string;
-  recipes: string;
+  recipes: string[];
 }

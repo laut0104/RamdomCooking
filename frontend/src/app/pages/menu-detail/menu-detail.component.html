@@ -10,7 +10,7 @@
     <h3 class="title">{{menu.menuname}}</h3>
   </div>
   <div class="subtitle">作り方</div>
-  <div class="recipes" *ngFor="let recipe of recipes; index as i">
+  <div class="recipes" *ngFor="let recipe of menu.recipes; index as i">
     <div class="recipe-title">手順{{i + 1}}</div>
     <mat-card class="recipe">
       <mat-card-content>

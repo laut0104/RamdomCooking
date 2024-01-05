@@ -32,7 +32,6 @@ export class AuthGuard implements CanActivate {
         }
 
         const idToken = this.liffSvc.liff.getIDToken();
-        console.log(idToken);
         // ユーザー情報をローカルストレージに格納したい
         return this.userSvc.login(idToken);
       }),

@@ -9,20 +9,15 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-menu-add',
   templateUrl: './menu-add.component.html',
-  styleUrls: ['./menu-add.component.scss']
+  styleUrls: ['./menu-add.component.scss'],
 })
 export class MenuAddComponent implements OnInit {
-
   public menuForm = this.fb.group({
     menuname: ['', Validators.required],
     recipes: this.fb.array([
-      this.fb.control('', [
-        Validators.required,
-        Validators.pattern('[^/]+')
-      ])
-    ])
+      this.fb.control('', [Validators.required, Validators.pattern('[^/]+')]),
+    ]),
   });
-  public recipe: string = '{'
   public userId: number = 0;
 
   constructor(
@@ -30,11 +25,11 @@ export class MenuAddComponent implements OnInit {
     private menuRepoSvc: MenuRepoService,
     private userSvc: UserService,
     public router: Router,
-    public dialog: MatDialog,
-  ) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.userId = this.userSvc.user$.getValue().id
+    this.userId = this.userSvc.user$.getValue().ID;
   }
 
   get recipes() {
@@ -42,57 +37,52 @@ export class MenuAddComponent implements OnInit {
   }
 
   addRecipes() {
-    this.recipes.push(this.fb.control('', [
-      Validators.required,
-      Validators.pattern('[^/]+')
-    ]));
+    this.recipes.push(
+      this.fb.control('', [Validators.required, Validators.pattern('[^/]+')])
+    );
   }
   removeRecipes() {
-    if(this.recipes.length-1 >0) this.recipes.removeAt(this.recipes.length-1);
+    if (this.recipes.length - 1 > 0)
+      this.recipes.removeAt(this.recipes.length - 1);
   }
 
   createMenu() {
-    this.menuForm.value.recipes?.map((recipe) => {
-      this.recipe = this.recipe + recipe + '/,'
-    })
-    this.recipe = this.recipe.slice(0,-1) + '}'
     const body = {
-      'menuname': this.menuForm.value.menuname,
-      'recipes': this.recipe,
-    }
+      menuname: this.menuForm.value.menuname,
+      recipes: this.menuForm.value.recipes,
+    };
     this.menuRepoSvc.createMenu(this.userId, body).subscribe(() => {
       this.router.navigate([`/menu-list`]);
-    })
+    });
   }
 
   goToListPage() {
     let isBlank: boolean = true;
-    if(this.menuForm.value.menuname === ""){
+    if (this.menuForm.value.menuname === '') {
       for (let recipe of this.menuForm.value.recipes!) {
-        if(recipe !== "") {
-          this.openDialog()
+        if (recipe !== '') {
+          this.openDialog();
           isBlank = false;
-          break
+          break;
         }
       }
-      if(isBlank) this.router.navigate(['menu-list'])
-    }
-    else{
-      this.openDialog()
+      if (isBlank) this.router.navigate(['menu-list']);
+    } else {
+      this.openDialog();
     }
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        confirmsentence: "入力途中のデータは消えますが移動しますか？",
+        confirmsentence: '入力途中のデータは消えますが移動しますか？',
       },
       width: '400px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
-      if(result.event === "ok") {
-        this.router.navigate(["/menu-list"])
+      console.log(result);
+      if (result.event === 'ok') {
+        this.router.navigate(['/menu-list']);
       }
     });
   }
