@@ -19,11 +19,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     let headers = req.headers.set('Content-Type', 'application/json');
     const user = this.userSvc.user$.getValue();
+    const authToken = this.userSvc.jwt$.getValue();
 
     if (environment.ngrokSkipBrowserWarning)
       headers = headers.set('ngrok-skip-browser-warning', 'skip');
 
     if (user?.id) headers = headers.set('user_id', String(user.id));
+
+    if (authToken)
+      headers = headers.set('Authorization', `Bearer ${authToken}`);
 
     const request = req.clone({ headers: headers });
 
