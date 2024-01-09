@@ -31,6 +31,22 @@
       margin-top: 30px;
     }
   }
+  .upload-img-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+    .upload-button {
+      margin-top: 30px;
+      margin-left: 10px;
+    }
+  }
+  .upload-img {
+    border: 2px solid #2f2f2fa9;
+    min-width:80%;
+    max-width: 90%;
+    height: auto;
+  }
+
   .button{
     display: flex;
     margin-right: auto;

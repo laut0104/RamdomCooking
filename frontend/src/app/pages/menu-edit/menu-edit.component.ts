@@ -20,6 +20,7 @@ import { UserService } from '../../services/user.service';
 export class MenuEditComponent implements OnInit {
   public menuForm = this.fb.group({
     menuname: ['', Validators.required],
+    imageUrl: [''],
     recipes: this.fb.array([
       this.fb.control('', [Validators.required, Validators.pattern('[^/]+')]),
     ]),
@@ -28,11 +29,14 @@ export class MenuEditComponent implements OnInit {
     id: 0,
     userid: 0,
     menuname: '',
+    imageurl: '',
     recipes: [],
   };
   public menuId!: number;
   public userId!: number;
   private subscriptions: Subscription[] = [];
+  public imgSrc: string = '../assets/images/placeholder.jpg';
+  public selectedImage: any;
 
   public verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -58,12 +62,13 @@ export class MenuEditComponent implements OnInit {
       .getMenu(this.userId, this.menuId, query)
       .subscribe((menu) => {
         this.menu = menu;
+        if (this.menu.imageurl !== '') this.imgSrc = this.menu.imageurl;
         /* レシピのフォーム作成 */
         for (let index = 0; index < this.menu.recipes.length - 1; index++) {
           this.addRecipes();
         }
         this.menuForm.controls.menuname.patchValue(menu.menuname);
-        this.menuForm.controls.recipes.patchValue(this.menu.recipes);
+        this.menuForm.controls.recipes.patchValue(menu.recipes);
       });
   }
 
@@ -81,9 +86,15 @@ export class MenuEditComponent implements OnInit {
       this.recipes.removeAt(this.recipes.length - 1);
   }
 
-  editMenu() {
+  async editMenu() {
+    console.log(this.menuForm.value);
+    let imgUrl: string = '';
+    if (!this.selectedImage) {
+      imgUrl = await this.uploadImage(this.selectedImage);
+    }
     const body = {
       menuname: this.menuForm.value.menuname,
+      imgurl: imgUrl,
       recipes: this.menuForm.value.recipes,
     };
     this.menuRepoSvc
@@ -96,6 +107,19 @@ export class MenuEditComponent implements OnInit {
         });
         this.router.navigate([`/menu`, this.menu.id]);
       });
+  }
+
+  showPreview(event: any) {
+    const file = event.target.files[0];
+    if (event.target.files && file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => (this.imgSrc = e.target.result);
+      reader.readAsDataURL(file);
+      this.selectedImage = file;
+    } else {
+      this.imgSrc = '../assets/images/placeholder.jpg';
+      this.selectedImage = null;
+    }
   }
 
   goToListPage() {
@@ -129,10 +153,25 @@ export class MenuEditComponent implements OnInit {
       width: '400px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result.event === 'ok') {
         this.router.navigate(['/menu-list']);
       }
     });
+  }
+
+  async uploadImage(img: any) {
+    const body = new FormData();
+    body.append('file', img, `${this.menu.id}.png`);
+    return new Promise<string>((resolve) => {
+      this.menuRepoSvc.uploadImage(this.userId, body).subscribe((res) => {
+        resolve(res);
+      });
+    });
+  }
+
+  onCancel() {
+    this.imgSrc = '../assets/images/placeholder.jpg';
+    this.selectedImage = null;
+    this.menuForm.controls.imageUrl.defaultValue;
   }
 }

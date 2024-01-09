@@ -15,6 +15,7 @@ export class MenuDetailComponent implements OnInit {
     id: 0,
     userid: 0,
     menuname: '',
+    imageurl: '',
     recipes: [],
   };
   private subscriptions: Subscription[] = [];

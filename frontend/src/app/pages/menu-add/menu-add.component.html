@@ -16,7 +16,18 @@
       <input matInput formControlName="menuname">
       <mat-error>必須入力です</mat-error>
     </mat-form-field>
-    <ng-container class="recipes" formArrayName="recipes"> <!-- ts側のformArrayのstudentsNameと結びつける。 -->
+    <div class="upload-img-form">
+      <div class="form-title">出来上がり例</div>
+      <button class="upload-button" mat-raised-button color="primary" (click)="fileUploader.click()">写真を追加</button>
+      <button class="upload-button" mat-raised-button color="Basic" (click)="onCancel()">取り消す</button>
+    </div>
+    <div class="text-center">
+      <img class="upload-img" [src]="imgSrc" alt="">
+    </div>
+    <div class="form-group" hidden>
+        <input type="file" accept="image/png,image/jpg,image/jpeg" class="form-control" #fileUploader formControlName="imageUrl" (change)="showPreview($event)">
+    </div>
+    <ng-container class="recipes" formArrayName="recipes">
       <div class="form-title">作り方</div>
       <mat-form-field class="recipe"appearance="fill" *ngFor="let recipes of recipes.controls; let i=index">
         <mat-label>手順{{i+1}}</mat-label>

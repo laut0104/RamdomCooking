@@ -17,7 +17,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    let headers = req.headers.set('Content-Type', 'application/json');
+    let headers = req.headers;
     const user = this.userSvc.user$.getValue();
     const authToken = this.userSvc.jwt$.getValue();
 

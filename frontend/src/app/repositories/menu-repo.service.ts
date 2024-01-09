@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ApiService } from '../drivers/api.service';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuRepoService {
-  constructor(public apiSvc: ApiService) {}
+  constructor(
+    public apiSvc: ApiService,
+    private http: HttpClient,
+    private userSvc: UserService
+  ) {}
 
   public getMenus(uid: number, query: any): Observable<any> {
     return this.apiSvc.get(`api/menus/${uid}`, query);
@@ -26,5 +33,25 @@ export class MenuRepoService {
 
   public deleteMenu(uid: number, id: number): Observable<any> {
     return this.apiSvc.delete(`api/menu/${uid}/${id}`);
+  }
+
+  public uploadImage(uid: number, body: any): Observable<any> {
+    const authToken = this.userSvc.jwt$.getValue();
+    const options = {
+      headers: new HttpHeaders({
+        'ngrok-skip-browser-warning': 'skip',
+        Authorization: `Bearer ${authToken}`,
+      }),
+    };
+
+    return this.http
+      .post<any[]>(`${environment.apiUrl}/api/image/${uid}`, body, {
+        ...options,
+      })
+      .pipe(
+        map((res: any) => {
+          return res;
+        })
+      );
   }
 }

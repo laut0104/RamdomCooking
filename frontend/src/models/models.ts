@@ -3,4 +3,5 @@ export interface Menu {
   userid: number;
   menuname: string;
   recipes: string[];
+  imageurl: string;
 }

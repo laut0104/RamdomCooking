@@ -14,11 +14,16 @@ import { UserService } from '../../services/user.service';
 export class MenuAddComponent implements OnInit {
   public menuForm = this.fb.group({
     menuname: ['', Validators.required],
+    imageUrl: [''],
     recipes: this.fb.array([
       this.fb.control('', [Validators.required, Validators.pattern('[^/]+')]),
     ]),
   });
   public userId: number = 0;
+  public menuID: number = 0;
+
+  public imgSrc: string = '../assets/images/placeholder.jpg';
+  public selectedImage: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -46,13 +51,22 @@ export class MenuAddComponent implements OnInit {
       this.recipes.removeAt(this.recipes.length - 1);
   }
 
-  createMenu() {
-    const body = {
+  async createMenu() {
+    let body = {
       menuname: this.menuForm.value.menuname,
       recipes: this.menuForm.value.recipes,
     };
-    this.menuRepoSvc.createMenu(this.userId, body).subscribe(() => {
-      this.router.navigate([`/menu-list`]);
+    this.menuRepoSvc.createMenu(this.userId, body).subscribe(async (res) => {
+      this.menuID = res.id;
+      if (this.selectedImage) {
+        res.imageurl = await this.uploadImage(this.selectedImage);
+        this.menuRepoSvc
+          .updateMenu(this.userId, this.menuID, res)
+          .subscribe(() => {
+            this.router.navigate([`/menu`, this.menuID]);
+          });
+      }
+      this.router.navigate([`/menu`, this.menuID]);
     });
   }
 
@@ -80,10 +94,40 @@ export class MenuAddComponent implements OnInit {
       width: '400px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result.event === 'ok') {
         this.router.navigate(['/menu-list']);
       }
     });
+  }
+
+  showPreview(event: any) {
+    const file = event.target.files[0];
+    if (event.target.files && file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => (this.imgSrc = e.target.result);
+      reader.readAsDataURL(file);
+      this.selectedImage = file;
+    } else {
+      this.imgSrc = '../assets/images/placeholder.jpg';
+      this.selectedImage = null;
+    }
+  }
+
+  async uploadImage(img: any) {
+    const body = new FormData();
+    body.append('file', img, `${this.menuID}.png`);
+    return new Promise((resolve) => {
+      this.menuRepoSvc.uploadImage(this.userId, body).subscribe((res) => {
+        resolve(res);
+      });
+    });
+  }
+
+  onCancel() {
+    this.imgSrc = '../assets/images/placeholder.jpg';
+    this.selectedImage = null;
+    this.menuForm.controls.imageUrl.patchValue(
+      this.menuForm.controls.imageUrl.defaultValue
+    );
   }
 }
