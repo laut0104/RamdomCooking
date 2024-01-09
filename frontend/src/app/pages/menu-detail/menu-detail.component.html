@@ -9,6 +9,10 @@
     </button>
     <h3 class="title">{{menu.menuname}}</h3>
   </div>
+  <div class="menu-img" *ngIf="menu.imageurl!==''">
+    <div class="subtitle">出来上がり例</div>
+    <img class="upload-img" src={{menu.imageurl}} alt="">
+  </div>
   <div class="subtitle">作り方</div>
   <div class="recipes" *ngFor="let recipe of menu.recipes; index as i">
     <div class="recipe-title">手順{{i + 1}}</div>
