@@ -1,7 +1,11 @@
 .header {
   background-color: gainsboro;
-  .logout-btn {
-    margin: 20px;
+  .account_setting_button{
     margin-left: auto;
+    .account_icon{
+      border-radius: 100%;
+      width: 40px;
+      height: 40px;
+    }
   }
 }

@@ -46,7 +46,6 @@ export class MenuListComponent implements OnInit {
   public getMenus() {
     const query = {};
     this.menuRepoSvc.getMenus(this.userId, query).subscribe((menus: any) => {
-      console.log(menus);
       this.menus = menus;
     });
   }
