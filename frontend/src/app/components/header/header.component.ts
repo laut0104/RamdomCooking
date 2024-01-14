@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LiffService } from '../../services/liff.service';
+import { UserService } from '../../services/user.service';
+import { RecommendMenuRepoService } from '../../repositories/recommend-menu-repo.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,11 @@ import { LiffService } from '../../services/liff.service';
 export class HeaderComponent implements OnInit {
   public icon: string = '../assets/images/icon_sample.png';
 
-  constructor(private liffSvc: LiffService) {}
+  constructor(
+    private liffSvc: LiffService,
+    private userSvc: UserService,
+    private recommendMenuRepoSvc: RecommendMenuRepoService
+  ) {}
 
   ngOnInit() {
     this.getIcon();
@@ -18,5 +24,10 @@ export class HeaderComponent implements OnInit {
   async getIcon() {
     const profile = await this.liffSvc.liff.getProfile();
     if (profile.pictureUrl) this.icon = profile.pictureUrl;
+  }
+
+  recommendMenu() {
+    const userID = this.userSvc.user$.getValue().ID;
+    this.recommendMenuRepoSvc.recommendMenu(userID, {}).subscribe();
   }
 }
