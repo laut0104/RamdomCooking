@@ -87,14 +87,13 @@ export class MenuEditComponent implements OnInit {
   }
 
   async editMenu() {
-    console.log(this.menuForm.value);
     let imgUrl: string = '';
-    if (!this.selectedImage) {
+    if (this.selectedImage) {
       imgUrl = await this.uploadImage(this.selectedImage);
     }
     const body = {
       menuname: this.menuForm.value.menuname,
-      imgurl: imgUrl,
+      imageurl: imgUrl,
       recipes: this.menuForm.value.recipes,
     };
     this.menuRepoSvc
