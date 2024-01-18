@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBar,
@@ -21,15 +27,21 @@ export class MenuEditComponent implements OnInit {
   public menuForm = this.fb.group({
     menuname: ['', Validators.required],
     imageUrl: [''],
-    recipes: this.fb.array([
-      this.fb.control('', [Validators.required, Validators.pattern('[^/]+')]),
+    materials: this.fb.array([
+      this.fb.group({
+        ingredient: ['', Validators.required],
+        quantity: ['', Validators.required],
+      }),
     ]),
+    recipes: this.fb.array([this.fb.control('', [Validators.required])]),
   });
   public menu: Menu = {
     id: 0,
     userid: 0,
     menuname: '',
     imageurl: '',
+    ingredients: [],
+    quantities: [],
     recipes: [],
   };
   public menuId!: number;
@@ -67,9 +79,62 @@ export class MenuEditComponent implements OnInit {
         for (let index = 0; index < this.menu.recipes.length - 1; index++) {
           this.addRecipes();
         }
+
+        // 材料のフォーム作成
+        this.menuForm.controls.materials.controls[0].controls.ingredient.patchValue(
+          this.menu.ingredients[0]
+        );
+        this.menuForm.controls.materials.controls[0].controls.quantity.patchValue(
+          this.menu.quantities[0]
+        );
+
+        for (let index = 0; index < this.menu.ingredients.length - 1; index++) {
+          this.addMaterials();
+          this.menuForm.controls.materials.controls[
+            this.materials.length - 1
+          ].controls.ingredient.patchValue(this.menu.ingredients[index + 1]);
+          this.menuForm.controls.materials.controls[
+            this.materials.length - 1
+          ].controls.quantity.patchValue(this.menu.quantities[index + 1]);
+        }
+
         this.menuForm.controls.menuname.patchValue(menu.menuname);
         this.menuForm.controls.recipes.patchValue(menu.recipes);
       });
+  }
+
+  // 特定の材料のフォームグループを取得
+  getMaterialFormGroup(index: number) {
+    return this.materials.at(index) as FormGroup;
+  }
+
+  // 特定の材料のingredientフォームを取得
+  getIngredientControl(index: number) {
+    const materialFormGroup = this.getMaterialFormGroup(index);
+    return materialFormGroup.get('ingredient') as FormControl;
+  }
+
+  // 特定の材料のquantityフォームを取得
+  getQuantityControl(index: number) {
+    const materialFormGroup = this.getMaterialFormGroup(index);
+    return materialFormGroup.get('quantity') as FormControl;
+  }
+
+  get materials() {
+    return this.menuForm.get('materials') as FormArray;
+  }
+
+  addMaterials() {
+    this.materials.push(
+      this.fb.group({
+        ingredient: ['', Validators.required],
+        quantity: ['', Validators.required],
+      })
+    );
+  }
+  removeMaterials() {
+    if (this.materials.length - 1 > 0)
+      this.materials.removeAt(this.materials.length - 1);
   }
 
   get recipes() {
@@ -91,9 +156,17 @@ export class MenuEditComponent implements OnInit {
     if (this.selectedImage) {
       imgUrl = await this.uploadImage(this.selectedImage);
     }
+    const ingredients: string[] = [];
+    const quantities: string[] = [];
+    this.menuForm.value.materials?.map((material) => {
+      ingredients.push(material.ingredient!);
+      quantities.push(material.quantity!);
+    });
     const body = {
       menuname: this.menuForm.value.menuname,
       imageurl: imgUrl,
+      ingredients: ingredients,
+      quantities: quantities,
       recipes: this.menuForm.value.recipes,
     };
     this.menuRepoSvc

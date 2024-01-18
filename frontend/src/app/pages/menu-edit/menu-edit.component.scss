@@ -46,6 +46,21 @@
     max-width: 90%;
     height: auto;
   }
+
+  .material-form-row {
+    display: flex;
+    align-items: center;
+    width: 90%;
+
+    .ingredient {
+      width: 48%;
+    }
+    .quantity {
+      width: 48%;
+      margin-left: 4%;
+    }
+  }
+
   .button{
     display: flex;
     margin-right: auto;

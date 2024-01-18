@@ -5,7 +5,6 @@
   .page-title {
     display: flex;
     align-items: center;
-
     .title{
       margin-top: 1.5em;
       margin-left: 3em;
@@ -34,7 +33,6 @@
     font-size: 1.6em;
   }
   .menu-img {
-
     .upload-img {
       margin-left: 1em;
       border: 2px solid #2f2f2fa9;
@@ -42,6 +40,19 @@
       max-width: 90%;
       height: auto;
     }
+  }
+
+  .materials{
+    display:flex;
+    justify-content: center;
+  }
+
+  table {
+    width: 90%;
+  }
+
+  .mat-cell.cdk-cell.cdk-column-ingredient.mat-column-ingredient {
+    padding-right: 1em;
   }
 
   .recipes {
