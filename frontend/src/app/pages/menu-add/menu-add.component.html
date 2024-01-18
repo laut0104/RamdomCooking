@@ -27,12 +27,37 @@
     <div class="form-group" hidden>
         <input type="file" accept="image/png,image/jpg,image/jpeg" class="form-control" #fileUploader formControlName="imageUrl" (change)="showPreview($event)">
     </div>
+    <ng-container class="material" formArrayName="materials">
+      <div class="form-title">材料</div>
+      <ng-container *ngFor="let materialForm of materials.controls; let i = index">
+        <div [formGroupName]="i" class="material-form-row">
+          <mat-form-field class="ingredient" appearance="fill">
+            <mat-label>材料{{ i+1 }}</mat-label>
+            <input matInput [formControl]="getIngredientControl(i)">
+            <mat-error>必須入力です</mat-error>
+          </mat-form-field>
+          <mat-form-field class="quantity" appearance="fill">
+            <mat-label>分量{{ i+1 }}</mat-label>
+            <input matInput [formControl]="getQuantityControl(i)">
+            <mat-error>必須入力です</mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+    <div class="button">
+      <button mat-mini-fab class="add" color="primary" (click)="addMaterials()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab class="delete" color="Basic" (click)="removeMaterials()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
     <ng-container class="recipes" formArrayName="recipes">
       <div class="form-title">作り方</div>
-      <mat-form-field class="recipe"appearance="fill" *ngFor="let recipes of recipes.controls; let i=index">
+      <mat-form-field class="recipe" appearance="fill" *ngFor="let recipes of recipes.controls; let i=index">
         <mat-label>手順{{i+1}}</mat-label>
         <textarea matInput [formControlName]="i"></textarea>
-        <mat-error>必須入力です。（'/'は使用できません）</mat-error>
+        <mat-error>必須入力です</mat-error>
       </mat-form-field>
     </ng-container>
   </form>

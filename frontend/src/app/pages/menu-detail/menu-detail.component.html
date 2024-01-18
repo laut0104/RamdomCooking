@@ -13,6 +13,21 @@
     <div class="subtitle">出来上がり例</div>
     <img class="upload-img" src={{menu.imageurl}} alt="">
   </div>
+  <div class="subtitle">材料</div>
+  <div class="materials">
+    <table #materialsTable mat-table [dataSource]="materials" class="mat-elevation-z8">
+      <ng-container matColumnDef="ingredient">
+        <th mat-header-cell *matHeaderCellDef> 材料 </th>
+        <td mat-cell *matCellDef="let material"> {{material.ingredient}} </td>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> 分量 </th>
+        <td mat-cell *matCellDef="let material"> {{material.quantity}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row class="table-column" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
   <div class="subtitle">作り方</div>
   <div class="recipes" *ngFor="let recipe of menu.recipes; index as i">
     <div class="recipe-title">手順{{i + 1}}</div>
