@@ -1,0 +1,11 @@
+@use "src/styles/styles";
+
+.container {
+  @include styles.container;
+  .error-message {
+    display: flex;
+    font-size: medium;
+    color: darkred;
+    padding: 8%;
+  }
+}
