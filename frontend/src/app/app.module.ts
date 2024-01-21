@@ -7,6 +7,7 @@ import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiErrorInterceptor } from './interceptors/api-error.interceptor';
 import { MenuDetailComponent } from './pages/menu-detail/menu-detail.component';
 import { MenuAddComponent } from './pages/menu-add/menu-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +16,9 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
 import { LiffInitComponent } from './pages/liff-init/liff-init.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { HttpRequestInterceptor } from './interceptors/http.interceptor';
+import { UnauthroizedComponent } from './pages/error/unauthroized/unauthroized.component';
+import { ServerErrorComponent } from './pages/error/server-error/server-error.component';
+import { NotfoundComponent } from './pages/error/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,9 @@ import { HttpRequestInterceptor } from './interceptors/http.interceptor';
     DeleteDialogComponent,
     LiffInitComponent,
     ConfirmDialogComponent,
+    UnauthroizedComponent,
+    ServerErrorComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +50,7 @@ import { HttpRequestInterceptor } from './interceptors/http.interceptor';
       useClass: HttpRequestInterceptor,
       multi: true,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

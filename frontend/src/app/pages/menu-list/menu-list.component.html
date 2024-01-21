@@ -5,7 +5,7 @@
     <button mat-raised-button color="primary" class="create-btn" routerLink="/menu-add" routerLinkActive="router-link-active" >新規作成</button>
   </div>
 
-  <table menusTable mat-table [dataSource]="menus" class="mat-elevation-z8" *ngIf="menus">
+  <table menusTable mat-table [dataSource]="menus" class="mat-elevation-z8" *ngIf="menus.length!=0">
     <ng-container matColumnDef="menu-name">
       <th mat-header-cell *matHeaderCellDef> 料理名 </th>
       <td mat-cell class="menu-name" *matCellDef="let menu" routerLink="/menu/{{menu.id}}"> {{menu.menuname}} </td>
@@ -27,7 +27,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div class="menu-title" *ngIf="!menus">
-    <h3 class="title">データがありません</h3>
+  <div class="menu-title" *ngIf="menus.length==0">
+    <h3 class="title">メニューが登録されていません</h3>
   </div>
 </div>

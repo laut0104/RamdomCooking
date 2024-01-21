@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LiffService } from '../../services/liff.service';
 import { UserService } from '../../services/user.service';
 import { RecommendMenuRepoService } from '../../repositories/recommend-menu-repo.service';
@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
     private recommendMenuRepoSvc: RecommendMenuRepoService
   ) {}
 
+  @Input() isLogin: boolean = true;
   ngOnInit() {
     this.getIcon();
   }
