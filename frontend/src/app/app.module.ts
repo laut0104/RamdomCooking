@@ -19,6 +19,9 @@ import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { UnauthroizedComponent } from './pages/error/unauthroized/unauthroized.component';
 import { ServerErrorComponent } from './pages/error/server-error/server-error.component';
 import { NotfoundComponent } from './pages/error/notfound/notfound.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import { NotfoundComponent } from './pages/error/notfound/notfound.component';
     UnauthroizedComponent,
     ServerErrorComponent,
     NotfoundComponent,
+    LoadingSpinnerComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +48,7 @@ import { NotfoundComponent } from './pages/error/notfound/notfound.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    OverlayModule,
   ],
   providers: [
     {
