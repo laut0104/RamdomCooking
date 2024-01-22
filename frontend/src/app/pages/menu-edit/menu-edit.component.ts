@@ -17,6 +17,7 @@ import { Menu } from '../../../models/models';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-menu-edit',
@@ -63,6 +64,9 @@ export class MenuEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const dialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+    });
     this.userId = this.userSvc.user$.getValue().ID;
     this.subscriptions.push(
       this.route.params.subscribe((params) => {
@@ -101,6 +105,7 @@ export class MenuEditComponent implements OnInit {
         this.menuForm.controls.menuname.patchValue(menu.menuname);
         this.menuForm.controls.recipes.patchValue(menu.recipes);
       });
+    dialogRef.close();
   }
 
   // 特定の材料のフォームグループを取得
@@ -152,6 +157,9 @@ export class MenuEditComponent implements OnInit {
   }
 
   async editMenu() {
+    const dialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+    });
     let imgUrl: string = '';
     if (this.selectedImage) {
       imgUrl = await this.uploadImage(this.selectedImage);
@@ -179,6 +187,7 @@ export class MenuEditComponent implements OnInit {
         });
         this.router.navigate([`/menu`, this.menu.id]);
       });
+    dialogRef.close();
   }
 
   showPreview(event: any) {

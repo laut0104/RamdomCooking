@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-menu-add',
@@ -94,6 +95,9 @@ export class MenuAddComponent implements OnInit {
   }
 
   async createMenu() {
+    const dialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+    });
     const ingredients: string[] = [];
     const quantities: string[] = [];
     this.menuForm.value.materials?.map((material) => {
@@ -117,6 +121,7 @@ export class MenuAddComponent implements OnInit {
             this.router.navigate([`/menu`, this.menuID]);
           });
       }
+      dialogRef.close();
       this.router.navigate([`/menu`, this.menuID]);
     });
   }
@@ -152,6 +157,9 @@ export class MenuAddComponent implements OnInit {
   }
 
   showPreview(event: any) {
+    const dialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+    });
     const file = event.target.files[0];
     if (event.target.files && file) {
       const reader = new FileReader();
@@ -162,6 +170,7 @@ export class MenuAddComponent implements OnInit {
       this.imgSrc = '../assets/images/placeholder.jpg';
       this.selectedImage = null;
     }
+    dialogRef.close();
   }
 
   async uploadImage(img: any) {

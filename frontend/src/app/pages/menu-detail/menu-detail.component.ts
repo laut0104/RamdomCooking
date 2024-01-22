@@ -5,6 +5,8 @@ import { Menu } from '../../../models/models';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
 import { MatTable } from '@angular/material/table';
+import { LoadingComponent } from '../../components/loading/loading.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-menu-detail',
@@ -31,10 +33,14 @@ export class MenuDetailComponent implements OnInit {
   constructor(
     private menuRepoSvc: MenuRepoService,
     private userSvc: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    const dialogRef = this.dialog.open(LoadingComponent, {
+      disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+    });
     this.subscriptions.push(
       this.route.params.subscribe((params) => {
         this.menuId = Number(params['id']);
@@ -54,5 +60,6 @@ export class MenuDetailComponent implements OnInit {
       }
       this.materialsTable?.renderRows();
     });
+    dialogRef.close();
   }
 }
