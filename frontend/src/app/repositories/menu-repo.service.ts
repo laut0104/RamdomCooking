@@ -39,10 +39,12 @@ export class MenuRepoService {
     const authToken = this.userSvc.jwt$.getValue();
     const options = {
       headers: new HttpHeaders({
-        'ngrok-skip-browser-warning': 'skip',
         Authorization: `Bearer ${authToken}`,
       }),
     };
+    if (environment.ngrokSkipBrowserWarning) {
+      options.headers.set('ngrok-skip-browser-warning', 'skip');
+    }
 
     return this.http
       .post<any[]>(`${environment.apiUrl}/api/image/${uid}`, body, {
