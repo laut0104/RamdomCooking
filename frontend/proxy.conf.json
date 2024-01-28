@@ -1,10 +1,10 @@
 {
   "/api/*": {
-    "target": "https://816c-103-5-140-153.ngrok-free.app",
+    "target": "https://ac06-43-234-17-93.ngrok-free.app",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/api": "https://816c-103-5-140-153.ngrok-free.app/"
+      "^/api": "https://ac06-43-234-17-93.ngrok-free.app/"
     },
     "logLevel": "debug"
   }
