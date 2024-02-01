@@ -9,6 +9,7 @@ import { MenuListComponent } from './pages/menu-list/menu-list.component';
 import { UnauthroizedComponent } from './pages/error/unauthroized/unauthroized.component';
 import { NotfoundComponent } from './pages/error/notfound/notfound.component';
 import { ServerErrorComponent } from './pages/error/server-error/server-error.component';
+import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
     path: 'menu-edit/:id',
     canActivate: [AuthGuard],
     component: MenuEditComponent,
+  },
+  {
+    path: 'explore-menu',
+    canActivate: [AuthGuard],
+    component: ExploreMenuComponent,
   },
   {
     path: '401',

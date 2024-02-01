@@ -32,7 +32,6 @@ export class MenuDetailComponent implements OnInit {
 
   constructor(
     private menuRepoSvc: MenuRepoService,
-    private userSvc: UserService,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) {}
@@ -47,9 +46,8 @@ export class MenuDetailComponent implements OnInit {
       })
     );
     const query = {};
-    const userId = this.userSvc.user$.getValue().ID;
 
-    this.menuRepoSvc.getMenu(userId, this.menuId, query).subscribe((menu) => {
+    this.menuRepoSvc.getMenu(this.menuId, query).subscribe((menu) => {
       this.menu = menu;
       for (let i = 0; i < this.menu.ingredients.length; i++) {
         const material = {

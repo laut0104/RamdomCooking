@@ -19,8 +19,8 @@ export class MenuRepoService {
     return this.apiSvc.get(`api/menus/${uid}`, query);
   }
 
-  public getMenu(uid: number, id: number, query: any): Observable<any> {
-    return this.apiSvc.get(`api/menu/${uid}/${id}`, query);
+  public getMenu(id: number, query: any): Observable<any> {
+    return this.apiSvc.get(`api/menu/${id}`, query);
   }
 
   public createMenu(uid: number, body: any): Observable<any> {
@@ -55,5 +55,9 @@ export class MenuRepoService {
           return res;
         })
       );
+  }
+
+  public exploreMenu(uid: number, query: any): Observable<any> {
+    return this.apiSvc.get(`api/explore/menu/${uid}`, query);
   }
 }
