@@ -22,6 +22,7 @@ import { NotfoundComponent } from './pages/error/notfound/notfound.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingComponent } from './components/loading/loading.component';
+import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     NotfoundComponent,
     LoadingSpinnerComponent,
     LoadingComponent,
+    ExploreMenuComponent,
   ],
   imports: [
     BrowserModule,

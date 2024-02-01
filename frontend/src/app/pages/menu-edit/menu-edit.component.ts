@@ -47,7 +47,6 @@ export class MenuEditComponent implements OnInit {
   };
   public menuId!: number;
   public userId!: number;
-  private subscriptions: Subscription[] = [];
   public imgSrc: string = '../assets/images/placeholder.jpg';
   public selectedImage: any;
 
@@ -68,43 +67,41 @@ export class MenuEditComponent implements OnInit {
       disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
     });
     this.userId = this.userSvc.user$.getValue().ID;
-    this.subscriptions.push(
-      this.route.params.subscribe((params) => {
-        this.menuId = Number(params['id']);
-      })
-    );
+    this.route.params.subscribe((params) => {
+      this.menuId = Number(params['id']);
+    });
     const query = {};
-    this.menuRepoSvc
-      .getMenu(this.userId, this.menuId, query)
-      .subscribe((menu) => {
-        this.menu = menu;
-        if (this.menu.imageurl !== '') this.imgSrc = this.menu.imageurl;
-        /* レシピのフォーム作成 */
-        for (let index = 0; index < this.menu.recipes.length - 1; index++) {
-          this.addRecipes();
-        }
+    this.menuRepoSvc.getMenu(this.menuId, query).subscribe((menu) => {
+      // TODO: アクセス制限もう少し考える
+      if (Number(this.userId) !== menu.userid)
+        this.router.navigate([`/menu-list`]);
+      if (this.menu.imageurl !== '') this.imgSrc = this.menu.imageurl;
+      /* レシピのフォーム作成 */
+      for (let index = 0; index < this.menu.recipes.length - 1; index++) {
+        this.addRecipes();
+      }
 
-        // 材料のフォーム作成
-        this.menuForm.controls.materials.controls[0].controls.ingredient.patchValue(
-          this.menu.ingredients[0]
-        );
-        this.menuForm.controls.materials.controls[0].controls.quantity.patchValue(
-          this.menu.quantities[0]
-        );
+      // 材料のフォーム作成
+      this.menuForm.controls.materials.controls[0].controls.ingredient.patchValue(
+        menu.ingredients[0]
+      );
+      this.menuForm.controls.materials.controls[0].controls.quantity.patchValue(
+        menu.quantities[0]
+      );
 
-        for (let index = 0; index < this.menu.ingredients.length - 1; index++) {
-          this.addMaterials();
-          this.menuForm.controls.materials.controls[
-            this.materials.length - 1
-          ].controls.ingredient.patchValue(this.menu.ingredients[index + 1]);
-          this.menuForm.controls.materials.controls[
-            this.materials.length - 1
-          ].controls.quantity.patchValue(this.menu.quantities[index + 1]);
-        }
+      for (let index = 0; index < menu.ingredients.length - 1; index++) {
+        this.addMaterials();
+        this.menuForm.controls.materials.controls[
+          this.materials.length - 1
+        ].controls.ingredient.patchValue(menu.ingredients[index + 1]);
+        this.menuForm.controls.materials.controls[
+          this.materials.length - 1
+        ].controls.quantity.patchValue(menu.quantities[index + 1]);
+      }
 
-        this.menuForm.controls.menuname.patchValue(menu.menuname);
-        this.menuForm.controls.recipes.patchValue(menu.recipes);
-      });
+      this.menuForm.controls.menuname.patchValue(menu.menuname);
+      this.menuForm.controls.recipes.patchValue(menu.recipes);
+    });
     dialogRef.close();
   }
 
@@ -178,14 +175,14 @@ export class MenuEditComponent implements OnInit {
       recipes: this.menuForm.value.recipes,
     };
     this.menuRepoSvc
-      .updateMenu(this.userId, this.menu.id, body)
+      .updateMenu(this.userId, this.menuId, body)
       .subscribe(() => {
         const changedMessage = 'メニューを変更しました';
         this._snackBar.open(changedMessage, 'OK', {
           verticalPosition: this.verticalPosition,
           duration: 3000,
         });
-        this.router.navigate([`/menu`, this.menu.id]);
+        this.router.navigate([`/menu`, this.menuId]);
       });
     dialogRef.close();
   }

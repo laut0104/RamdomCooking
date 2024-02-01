@@ -1,0 +1,58 @@
+@use "src/styles/styles";
+
+.container {
+  @include styles.container;
+  .menu-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.8em;
+    .title {
+      align-content: center;
+      margin-bottom: 0px;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+  }
+  .explore-menus {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .explore-menu {
+      padding-top: 1em;
+      width: 90%;
+    }
+    .mat-card-header {
+      align-items: center;
+    }
+    .mat-card-title {
+      margin-bottom: 0px;
+    }
+
+    .favorite-icon {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .image{
+      margin-top: 0.8em;
+      margin-bottom: 0.8em;
+      display: flex;
+      justify-content: center;
+    }
+    .menu-img {
+      width: 100%;
+    }
+
+    .liked {
+      color: red; /* いいねされた状態の色を指定 */
+    }
+    .ingredient {
+      color:rgb(75, 75, 75);
+      display: -webkit-box; /* 必須 */
+      -webkit-box-orient: vertical; /* 必須 */
+      -webkit-line-clamp: 3; /* 行数を制限 */
+      overflow: hidden; /* はみ出た部分を非表示 */
+    }
+  }
+}

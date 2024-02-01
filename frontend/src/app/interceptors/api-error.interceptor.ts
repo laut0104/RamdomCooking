@@ -50,7 +50,6 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
   private handleAppError(event: HttpResponseBase) {
     const err = AppError.ApiErrorFactory.getError(event);
-    console.log(err);
     if (err === null) {
       return err;
     }
