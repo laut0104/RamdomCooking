@@ -4,7 +4,8 @@
   min-height: 100%;
   height: auto;
   width: 100%;
-  padding-bottom: 3em;
+  padding-bottom: calc(3em + 90px);
+
 
   color: $text;
   background-color: $background;

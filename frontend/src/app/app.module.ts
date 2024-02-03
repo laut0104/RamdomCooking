@@ -23,6 +23,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.componen
     LoadingSpinnerComponent,
     LoadingComponent,
     ExploreMenuComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

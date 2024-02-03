@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: gainsboro;
+  padding: 10px 0px;
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000; /* 他の固定要素と重ならないように z-index を指定 */
+}
+
+.icon-field {
+  text-align: center;
+}
+
+.material-icons {
+  font-size: 30px;
+  margin-bottom: 4px; /* アイコンとテキストの間に余白を設定 */
+}
+
+.icon-text {
+  font-size: 15px;
+}
