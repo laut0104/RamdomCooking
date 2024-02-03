@@ -97,6 +97,7 @@ export class MenuAddComponent implements OnInit {
   async createMenu() {
     const dialogRef = this.dialog.open(LoadingComponent, {
       disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+      panelClass: 'loading-dialog',
     });
     const ingredients: string[] = [];
     const quantities: string[] = [];
@@ -159,6 +160,7 @@ export class MenuAddComponent implements OnInit {
   showPreview(event: any) {
     const dialogRef = this.dialog.open(LoadingComponent, {
       disableClose: true, // ダイアログ外のクリックやEscキーで閉じないようにする
+      panelClass: 'loading-dialog',
     });
     const file = event.target.files[0];
     if (event.target.files && file) {

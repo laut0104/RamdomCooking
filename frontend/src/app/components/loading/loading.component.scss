@@ -1,11 +1,7 @@
-::ng-deep mat-dialog-container{
+::ng-deep .loading-dialog mat-dialog-container {
   background-color: transparent !important;
 }
 
-::ng-deep .cdk-overlay-plane{
-  background-color: transparent !important;
-}
-
-::ng-deep .mat-dialog-container {
+::ng-deep .loading-dialog .mat-dialog-container {
   box-shadow: none !important;
 }
