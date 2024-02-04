@@ -2,26 +2,28 @@
 <div class="container"><div class="menu-title">
   <h1 class="title">みんなのメニュー</h1>
 </div>
-  <div class="explore-menus">
-    <div class="explore-menu" *ngFor="let menu of menuList; let i=index">
-      <mat-card class="menu-card">
-        <mat-card-header>
-          <mat-card-title>{{menu.menuname}}</mat-card-title>
-          <div class="favorite-icon" (click)="toggleLike(i)">
-            <mat-icon *ngIf="!menu.isLiked" class="like-icon">favorite_border</mat-icon>
-            <mat-icon *ngIf="menu.isLiked" class="liked">favorite</mat-icon>
-          </div>
-        </mat-card-header>
-        <mat-card-content routerLink="/menu/{{menu.id}}">
-          <div class="image" *ngIf="menu.imageurl!==''">
-            <img class="menu-img" src={{menu.imageurl}} alt="menu image" routerLink="/menu/{{menu.id}}">
-          </div>
-          <div class="ingredient">
-            材料：{{menu.ingredientList}}
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+<div class="explore-menus">
+  <div class="explore-menu" *ngFor="let menu of menuList; let i=index">
+    <mat-card class="menu-card">
+      <mat-card-header>
+        <mat-card-title>{{menu.menuname}}</mat-card-title>
+        <div class="favorite-icon" (click)="toggleLike(i)">
+          <mat-icon *ngIf="!menu.isLiked" class="like-icon" (click)="registerLike(menu.id)">favorite_border</mat-icon>
+          <mat-icon *ngIf="menu.isLiked" class="liked" (click)="deleteLike(menu.id)">favorite</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content routerLink="/menu/{{menu.id}}">
+        <div class="image" *ngIf="menu.imageurl!==''">
+          <img class="menu-img" src={{menu.imageurl}} alt="menu image" routerLink="/menu/{{menu.id}}">
+        </div>
+        <div class="ingredient">
+          材料：{{menu.ingredientList}}
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
+</div>
+<div class="menu-title" *ngIf="menuList.length==0">
+  <h3 class="title">メニューが登録されていません</h3>
 </div>
 <app-footer></app-footer>

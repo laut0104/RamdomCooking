@@ -31,6 +31,19 @@
       margin-top: 30px;
     }
   }
+  .button-add {
+    display: flex;
+    align-items: center;
+    width: 90%;
+
+    .add {
+      margin-left: auto;
+      margin-right: 1.7em;
+    }
+    .delete {
+        margin-right: auto;
+      }
+  }
   .upload-img-form {
     display: flex;
     align-items: center;

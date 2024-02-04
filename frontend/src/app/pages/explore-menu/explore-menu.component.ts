@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
+import { LikeRepoService } from '../../repositories/like-repo.service';
 
 @Component({
   selector: 'app-explore-menu',
@@ -12,6 +13,7 @@ export class ExploreMenuComponent implements OnInit {
   public menuList: any[] = [];
 
   constructor(
+    private likeRepoSvc: LikeRepoService,
     private menuRepoSvc: MenuRepoService,
     private userSvc: UserService
   ) {}
@@ -29,5 +31,25 @@ export class ExploreMenuComponent implements OnInit {
 
   toggleLike(index: number) {
     this.menuList[index].isLiked = !this.menuList[index].isLiked;
+  }
+
+  registerLike(menuID: number) {
+    const body = {
+      userid: this.userId,
+      menuid: menuID,
+    };
+    this.likeRepoSvc.createLike(body).subscribe((res) => console.log(res));
+  }
+
+  deleteLike(menuID: number) {
+    this.likeRepoSvc
+      .getLikeByUniqueKey(this.userId, menuID)
+      .subscribe((res) => {
+        console.log(res);
+        const likeId = res.id;
+        this.likeRepoSvc
+          .deleteLike(likeId)
+          .subscribe((res) => console.log(res));
+      });
   }
 }
