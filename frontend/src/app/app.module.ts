@@ -24,6 +24,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { LikeListComponent } from './pages/like-list/like-list.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FooterComponent } from './components/footer/footer.component';
     LoadingComponent,
     ExploreMenuComponent,
     FooterComponent,
+    LikeListComponent,
   ],
   imports: [
     BrowserModule,
