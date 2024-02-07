@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Menu } from '../../../models/models';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
-import { UserService } from '../../services/user.service';
 import { MatTable } from '@angular/material/table';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,7 +33,8 @@ export class MenuDetailComponent implements OnInit {
   constructor(
     private menuRepoSvc: MenuRepoService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -59,5 +60,9 @@ export class MenuDetailComponent implements OnInit {
       this.materialsTable?.renderRows();
     });
     dialogRef.close();
+  }
+
+  public backBtnClick() {
+    this.location.back();
   }
 }

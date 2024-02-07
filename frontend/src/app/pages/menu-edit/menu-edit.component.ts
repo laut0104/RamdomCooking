@@ -77,7 +77,7 @@ export class MenuEditComponent implements OnInit {
         this.router.navigate([`/menu-list`]);
       if (this.menu.imageurl !== '') this.imgSrc = this.menu.imageurl;
       /* レシピのフォーム作成 */
-      for (let index = 0; index < this.menu.recipes.length - 1; index++) {
+      for (let index = 0; index < menu.recipes.length - 1; index++) {
         this.addRecipes();
       }
 
