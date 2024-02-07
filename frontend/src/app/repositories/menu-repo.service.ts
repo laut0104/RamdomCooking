@@ -24,7 +24,7 @@ export class MenuRepoService {
   }
 
   public createMenu(uid: number, body: any): Observable<any> {
-    return this.apiSvc.post(`api/menu/34`, body);
+    return this.apiSvc.post(`api/menu/${uid}`, body);
   }
 
   public updateMenu(uid: number, id: number, body: any): Observable<any> {

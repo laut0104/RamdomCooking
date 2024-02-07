@@ -10,6 +10,7 @@ import { UnauthroizedComponent } from './pages/error/unauthroized/unauthroized.c
 import { NotfoundComponent } from './pages/error/notfound/notfound.component';
 import { ServerErrorComponent } from './pages/error/server-error/server-error.component';
 import { ExploreMenuComponent } from './pages/explore-menu/explore-menu.component';
+import { LikeListComponent } from './pages/like-list/like-list.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
     path: 'explore-menu',
     canActivate: [AuthGuard],
     component: ExploreMenuComponent,
+  },
+  {
+    path: 'like-list',
+    canActivate: [AuthGuard],
+    component: LikeListComponent,
   },
   {
     path: '401',

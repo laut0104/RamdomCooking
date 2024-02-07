@@ -8,6 +8,10 @@ import { ApiService } from '../drivers/api.service';
 export class LikeRepoService {
   constructor(public apiSvc: ApiService) {}
 
+  public getLikes(userId: number, query: any): Observable<any> {
+    return this.apiSvc.get(`api/likes/${userId}`, query);
+  }
+
   public getLikeByUniqueKey(userId: number, menuId: number): Observable<any> {
     return this.apiSvc.get(`api/like/${userId}/${menuId}`);
   }
