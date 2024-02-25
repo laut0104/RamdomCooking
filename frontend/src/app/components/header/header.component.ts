@@ -26,9 +26,4 @@ export class HeaderComponent implements OnInit {
     const profile = await this.liffSvc.liff.getProfile();
     if (profile.pictureUrl) this.icon = profile.pictureUrl;
   }
-
-  recommendMenu() {
-    const userID = this.userSvc.user$.getValue().ID;
-    this.recommendMenuRepoSvc.recommendMenu(userID, {}).subscribe();
-  }
 }
