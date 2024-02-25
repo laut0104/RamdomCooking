@@ -3,7 +3,7 @@
   <h1 class="title">お気に入りメニュー</h1>
 </div>
 <div class="explore-menus">
-  <div class="explore-menu" *ngFor="let menu of menuList; let i=index">
+  <div class="explore-menu" *ngFor="let menu of showMenuList; let i=index">
     <mat-card class="menu-card">
       <mat-card-header>
         <mat-card-title>{{menu.menuname}}</mat-card-title>
@@ -21,8 +21,15 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <mat-paginator class="paginator" *ngIf="menuList.length!=0"
+              (page)="handlePageEvent($event)"
+              [length]="this.menuList.length"
+              [pageSize]="15"
+              [hidePageSize]="true"
+              aria-label="Select page">
+</mat-paginator>
 </div>
 <div class="menu-title" *ngIf="menuList.length==0">
-  <h3 class="title">メニューが登録されていません</h3>
+  <h3 class="title">お気に入りのメニューがありません</h3>
 </div>
 <app-footer></app-footer>
