@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
 import { LikeRepoService } from '../../repositories/like-repo.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-explore-menu',
@@ -11,6 +12,7 @@ import { LikeRepoService } from '../../repositories/like-repo.service';
 export class ExploreMenuComponent implements OnInit {
   public userId: number = 0;
   public menuList: any[] = [];
+  public showMenuList: any[] = [];
 
   constructor(
     private likeRepoSvc: LikeRepoService,
@@ -22,6 +24,7 @@ export class ExploreMenuComponent implements OnInit {
     this.userId = this.userSvc.user$.getValue().ID;
     this.menuRepoSvc.exploreMenu(this.userId, {}).subscribe((res) => {
       this.menuList = res;
+      this.showMenuList = this.menuList.slice(0, 15);
       this.menuList.map((menu) => {
         menu.isLiked = false;
         menu.ingredientList = menu.ingredients.join();
@@ -51,5 +54,12 @@ export class ExploreMenuComponent implements OnInit {
           .deleteLike(likeId)
           .subscribe((res) => console.log(res));
       });
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.showMenuList = this.menuList.slice(
+      15 * e.pageIndex,
+      15 * (e.pageIndex + 1)
+    );
   }
 }

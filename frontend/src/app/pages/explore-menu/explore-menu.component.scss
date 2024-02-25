@@ -30,6 +30,10 @@
       margin-bottom: 0px;
     }
 
+    mat-paginator {
+      background-color: #f6f6f6 !important;
+    }
+
     .favorite-icon {
       cursor: pointer;
       display: flex;

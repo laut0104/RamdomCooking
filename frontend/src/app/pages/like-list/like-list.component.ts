@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LikeRepoService } from '../../repositories/like-repo.service';
-import { MenuRepoService } from '../../repositories/menu-repo.service';
 import { UserService } from '../../services/user.service';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-like-list',
@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class LikeListComponent implements OnInit {
   public userId: number = 0;
   public menuList: any[] = [];
+  public showMenuList: any[] = [];
 
   constructor(
     private likeRepoSvc: LikeRepoService,
@@ -23,8 +24,8 @@ export class LikeListComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.userSvc.user$.getValue().ID;
     this.likeRepoSvc.getLikes(this.userId, {}).subscribe((res) => {
-      console.log(res);
       this.menuList = res;
+      this.showMenuList = this.menuList.slice(0, 15);
       this.menuList.map((menu) => {
         menu.ingredientList = menu.ingredients.join();
       });
@@ -41,9 +42,16 @@ export class LikeListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'ok') {
         this.likeRepoSvc.deleteLike(likeID).subscribe(() => {
-          this.menuList.splice(index, 1);
+          this.showMenuList.splice(index, 1);
         });
       }
     });
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.showMenuList = this.menuList.slice(
+      15 * e.pageIndex,
+      15 * (e.pageIndex + 1)
+    );
   }
 }
