@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LiffService } from '../../services/liff.service';
-import { UserService } from '../../services/user.service';
-import { RecommendMenuRepoService } from '../../repositories/recommend-menu-repo.service';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +9,7 @@ import { RecommendMenuRepoService } from '../../repositories/recommend-menu-repo
 export class HeaderComponent implements OnInit {
   public icon: string = '../assets/images/icon_sample.png';
 
-  constructor(
-    private liffSvc: LiffService,
-    private userSvc: UserService,
-    private recommendMenuRepoSvc: RecommendMenuRepoService
-  ) {}
+  constructor(private liffSvc: LiffService) {}
 
   @Input() isLogin: boolean = true;
   ngOnInit() {
