@@ -1,6 +1,5 @@
 <mat-toolbar class="header">
   <span routerLink="/menu-list">RandomCooking</span>
-  <button *ngIf="isLogin" class="recommend_button" mat-raised-button color="primary" (click)="recommendMenu()">今日のメニュー</button>
   <button *ngIf="isLogin" class="account_setting_button" mat-icon-button matTooltip="Basic" color="black">
     <img class="account_icon" src={{icon}}>
   </button>
