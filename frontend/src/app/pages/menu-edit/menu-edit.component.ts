@@ -75,7 +75,8 @@ export class MenuEditComponent implements OnInit {
       // TODO: アクセス制限もう少し考える
       if (Number(this.userId) !== menu.userid)
         this.router.navigate([`/menu-list`]);
-      if (this.menu.imageurl !== '') this.imgSrc = this.menu.imageurl;
+      console.log(menu);
+      if (menu.imageurl !== '') this.imgSrc = menu.imageurl;
       /* レシピのフォーム作成 */
       for (let index = 0; index < menu.recipes.length - 1; index++) {
         this.addRecipes();
